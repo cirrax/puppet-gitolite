@@ -1,5 +1,5 @@
-
-
+#
+# params
 class gitolite::params (
 ) {
 

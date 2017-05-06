@@ -74,7 +74,7 @@ find ${gh}/.puppet_userkeys -type d|sed 's|/\\.puppet_userkeys|/.puppet_userkeys
 ",
     refreshonly => true,
     before      => File[ $gitolite::keydir ],
-    require     => File[ "${::gitolite::userhome}/.puppet_userkeys" ], 
+    require     => File[ "${::gitolite::userhome}/.puppet_userkeys" ],
   }
 
   file{ $::gitolite::keydir:
