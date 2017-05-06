@@ -1,0 +1,10 @@
+<% Array(@comments).each do |comment| -%>
+# <%= comment %>
+<% end -%>
+<% Array(@groups).each do |group| -%>
+<% if group =~ /^@/ -%>
+<%= group.ljust(15,' ') %> = <%= Array(@members).join(' ') %>
+<% else -%>
+@<%= group.ljust(14,' ') %> = <%= Array(@members).join(' ') %>
+<% end -%>
+<% end %>

@@ -1,0 +1,15 @@
+<% Array(@comments).each do |comment| -%>
+# <%= comment %>
+<% end -%>
+repo <%= Array(@repos).join(' ') %>
+<% @rules.each do | rule, rval | -%>
+    <%= rule.ljust(15,' ') %> = <%= Array(rval).join(' ') %>
+<% end -%>
+
+<% @options.each do | option, oval | -%>
+    option <%= option.ljust(25,' ') %> = <%= oval %>
+<% end -%>
+<% @configs.each do | config, cval | -%>
+    config <%= config.ljust(25,' ') %> = '<%= cval %>'
+<% end -%>
+

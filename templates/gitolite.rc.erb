@@ -1,0 +1,63 @@
+#
+# PUPPET managed, do not edit !
+#
+# configuration variables for gitolite
+# This file is in perl syntax.
+
+%RC = (
+    # default umask gives you perms of '0700'; see the rc file docs for
+    # how/why you might change this
+    UMASK                           =>  <%= @umask %>,
+
+    # look for "git-config" in the documentation
+    GIT_CONFIG_KEYS                 =>  '<%= @git_config_keys %>',
+
+    # comment out if you don't need all the extra detail in the logfile
+<% if @log_extra -%>
+    LOG_EXTRA                       =>  1,
+<% end -%>
+    LOG_DEST                        =>  '<%= @log_dest.join(',') %>',
+
+    # roles.  add more roles (like MANAGER, TESTER, ...) here.
+    #   WARNING: if you make changes to this hash, you MUST run 'gitolite
+    #   compile' afterward, and possibly also 'gitolite trigger POST_COMPILE'
+    ROLES => {
+<% @roles.each do | role | -%>
+        <%= role.ljust(20,' ') %> =>  1,
+<% end -%>
+    },
+
+    # the 'info' command prints this as additional info, if it is set
+<% if @site_info -%>
+	SITE_INFO                 =>  '<%= @site_info %>',
+<% end -%>
+
+    # the CpuTime feature uses these
+        # display user, system, and elapsed times to user after each git operation
+        # DISPLAY_CPU_TIME          =>  1,
+        # display a warning if total CPU times (u, s, cu, cs) crosses this limit
+        # CPU_TIME_WARN_LIMIT       =>  0.1,
+
+    # the Mirroring feature needs this
+<% if @gitolite_hostname -%>
+	HOSTNAME                  =>  "<%= @gitolite_hostname %>",
+<% end -%>
+
+
+<% if @local_code -%>
+	LOCAL_CODE                =>  "<%= @local_code %>",
+<% end -%>
+
+<% @additional_gitoliterc.each do | key, val | -%>
+        <%= key.ljust(30, ' ') %> =>  <%= val %>,
+<% end -%>
+
+    # List of commands and features to enable
+    ENABLE => [
+<% @commands.each do | command | -%>
+    '<%= command %>',
+<% end -%>
+    ],
+# per perl rules, this should be the last line in such a file:
+);
+1;
