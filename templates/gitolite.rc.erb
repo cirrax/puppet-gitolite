@@ -60,4 +60,7 @@
     ],
 # per perl rules, this should be the last line in such a file:
 );
+<% @additional_gitoliterc_notrc.each do | key, val | -%>
+<%= key %> =  <%= val %>;
+<% end -%>
 1;

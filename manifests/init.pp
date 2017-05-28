@@ -63,22 +63,29 @@
 #  provide a admin key source (default to false)
 # $admin_key             = false,
 #  admin key (string) (default to false)
+# $additional_gitoliterc_notrc
+#  hash of additional lines to add on gitolite.rc file
+#  after the rc vars
+#  defaults to empty (beware of "' etc ...)
+#  example:
+#  { '$REF_OR_FILENAME_PATT' => 'qr(^[0-9a-zA-Z][-0-9a-zA-Z._\@/+ :%,]*$)' }
 
 class gitolite (
   $user,
   $userhome,
-  $reporoot              = "${userhome}/repositories",
-  $user_ensure           = true,
-  $umask                 = '0077',
-  $git_config_keys       = '.*',
-  $log_extra             = false,
-  $log_dest              = ['normal'],
-  $roles                 = ['READERS', 'WRITERS'],
-  $site_info             = false,
-  $gitolite_hostname     = $::hostname,
-  $local_code            = false,
-  $additional_gitoliterc = {},
-  $commands              = [
+  $reporoot                    = "${userhome}/repositories",
+  $user_ensure                 = true,
+  $umask                       = '0077',
+  $git_config_keys             = '.*',
+  $log_extra                   = false,
+  $log_dest                    = ['normal'],
+  $roles                       = ['READERS', 'WRITERS'],
+  $site_info                   = false,
+  $gitolite_hostname           = $::hostname,
+  $local_code                  = false,
+  $additional_gitoliterc       = {},
+  $additional_gitoliterc_notrc = {},
+  $commands                    = [
     'help',
     'desc',
     'info',
@@ -89,10 +96,10 @@ class gitolite (
     'daemon',
     'gitweb',
   ],
-  $package_ensure        = present,
-  $additional_packages   = $gitolite::params::additional_packages,
-  $admin_key_source      = false,
-  $admin_key             = false,
+  $package_ensure              = present,
+  $additional_packages         = $gitolite::params::additional_packages,
+  $admin_key_source            = false,
+  $admin_key                   = false,
 ) inherits gitolite::params {
 
   ensure_packages($::gitolite::additional_packages)
