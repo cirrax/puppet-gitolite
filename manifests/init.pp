@@ -14,8 +14,6 @@
 # $user:
 #  the user to host the git repositories
 #  this user needs a home directory to work with gitolite.
-# $usergroup:
-#  the group of the user
 # $userhome:
 #  the home directory of the user
 # $user_ensure:
@@ -192,7 +190,6 @@ class gitolite (
     ensure  => directory,
     mode    => '0755',
     owner   => $user,
-    group   => $usergroup,
   }
 }
 
