@@ -36,6 +36,7 @@ define gitolite::repo (
   $groups      = [],
   $order       = '',
   $description = '',
+  $hooks       = {},
 ) {
 
   include gitolite
@@ -60,6 +61,32 @@ define gitolite::repo (
       content => $description,
       owner   => $gitolite::user,
       group   => $gitolite::usergroup,
+    }
+  }
+
+  file { "${gitolite::reporoot}/${title}.git/hooks":
+    ensure  => 'directory',
+    mode    => '0700',
+    owner   => $gitolite::user,
+    group   => $gitolite::usergroup,
+    purge   => true,
+    recurse => true,
+  }
+
+  # ensure that the gitolite hook is not overwritten.
+  file { "${gitolite::reporoot}/${title}.git/hooks/update":
+    ensure => 'link',
+    target => "${gitolite::userhome}/.gitolite/hooks/common/update",
+    owner  => $gitolite::user,
+    group  => $gitolite::usergroup,
+  }
+
+  $hooks.each | $hname, $dest | {
+    file { "${gitolite::reporoot}/${title}.git/hooks/${hname}":
+      ensure => 'link',
+      target => "${gitolite::userhome}/scripts/${dest}",
+      owner  => $gitolite::user,
+      group  => $gitolite::usergroup,
     }
   }
 }

@@ -187,5 +187,12 @@ class gitolite (
       notify  => $exec_update,
     }
   }
+
+  file{"${userhome}/scripts":
+    ensure  => directory,
+    mode    => '0755',
+    owner   => $user,
+    group   => $usergroup,
+  }
 }
 
