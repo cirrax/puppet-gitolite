@@ -28,13 +28,14 @@
 # defaults to ''
 
 define gitolite::repo (
-  $repos    = [$title],
-  $comments = [],
-  $rules    = {},
-  $options  = {},
-  $configs  = {},
-  $groups   = [],
-  $order    = '',
+  $repos       = [$title],
+  $comments    = [],
+  $rules       = {},
+  $options     = {},
+  $configs     = {},
+  $groups      = [],
+  $order       = '',
+  $description = '',
 ) {
 
   include gitolite
@@ -51,6 +52,14 @@ define gitolite::repo (
       target  => $::gitolite::conffile,
       content => template('gitolite/groups.erb'),
       order   => "60${order}",
+    }
+  }
+
+  if $description != '' {
+    file { "${gitolite::reporoot}/${title}.git/description":
+      content => $description,
+      owner   => $gitolite::user,
+      group   => $gitolite::usergroup,
     }
   }
 }
