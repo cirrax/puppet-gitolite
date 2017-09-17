@@ -187,9 +187,9 @@ class gitolite (
   }
 
   file{"${userhome}/scripts":
-    ensure  => directory,
-    mode    => '0755',
-    owner   => $user,
+    ensure => directory,
+    mode   => '0755',
+    owner  => $user,
   }
 }
 
