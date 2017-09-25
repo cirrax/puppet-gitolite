@@ -117,6 +117,19 @@ class gitolite (
       system     => true,
       before     => Exec['gitolite_setup'],
     }
+    # create an ssh key for gitolite user
+    file { "${userhome}/.ssh":
+      ensure  => directory,
+      owner   => $user,
+      group   => $user,
+      mode    => '0700',
+      require => User[$user],
+    }
+    ssh::key {"${userhome}/.ssh/id_rsa":
+      user    => $user,
+      length  => 4096,
+      require => File["${userhome}/.ssh"],
+    }
   }
 
   exec{'gitolite_setup':
