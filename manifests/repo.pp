@@ -16,6 +16,9 @@
 #   a hash of permissions:
 #   [{ 'RW+' => 'username'}, ... ]
 # $options     = {},
+# $configs     = {},
+# $add_configs = {},
+#   additional configs, merged with configs
 # $git-configs = {},
 # $groups      = [],
 # an array of groups to append the repos to
@@ -33,6 +36,7 @@ define gitolite::repo (
   $rules       = {},
   $options     = {},
   $configs     = {},
+  $add_configs = {},
   $groups      = [],
   $order       = '',
   $description = '',

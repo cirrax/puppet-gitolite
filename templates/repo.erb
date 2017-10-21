@@ -12,4 +12,7 @@ repo <%= Array(@repos).join(' ') %>
 <% @configs.each do | config, cval | -%>
     config <%= config.ljust(25,' ') %> = '<%= cval %>'
 <% end -%>
+<% @add_configs.each do | config, cval | -%>
+    config <%= config.ljust(25,' ') %> = '<%= cval %>'
+<% end -%>
 
