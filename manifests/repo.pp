@@ -41,6 +41,7 @@ define gitolite::repo (
   $order       = '',
   $description = '',
   $hooks       = {},
+  $group       = 'root',
 ) {
 
   include gitolite
@@ -64,7 +65,7 @@ define gitolite::repo (
     file { "${gitolite::reporoot}/${title}.git/description":
       content => $description,
       owner   => $gitolite::user,
-      group   => $gitolite::usergroup,
+      group   => $group,
     }
   }
 
@@ -72,7 +73,7 @@ define gitolite::repo (
     ensure  => 'directory',
     mode    => '0700',
     owner   => $gitolite::user,
-    group   => $gitolite::usergroup,
+    group   => $group,
     purge   => true,
     recurse => true,
   }
@@ -82,7 +83,7 @@ define gitolite::repo (
     ensure => 'link',
     target => "${gitolite::userhome}/.gitolite/hooks/common/update",
     owner  => $gitolite::user,
-    group  => $gitolite::usergroup,
+    group  => $group,
   }
 
   $hooks.each | $hname, $dest | {
@@ -90,7 +91,7 @@ define gitolite::repo (
       ensure => 'link',
       target => "${gitolite::userhome}/scripts/${dest}",
       owner  => $gitolite::user,
-      group  => $gitolite::usergroup,
+      group  => $group,
     }
   }
 }
