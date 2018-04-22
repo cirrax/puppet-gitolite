@@ -137,6 +137,10 @@ class gitolite (
     }
   }
 
+  Exec {
+    path    => ['/usr/bin', '/usr/sbin', '/bin'],
+  }
+
   exec{'gitolite_setup':
     command => "su ${gitolite::user} -c 'gitolite setup -a dummy; mkdir ~/.gitolite/keydir'",
     unless  => "test -d ~${user}/.gitolite",
