@@ -130,6 +130,11 @@ class gitolite (
       length  => 4096,
       require => File["${userhome}/.ssh"],
     }
+    ssh::key {"${userhome}/.ssh/id_ed25519":
+      type    => 'ed25519',
+      user    => $user,
+      require => File["${userhome}/.ssh"],
+    }
   }
 
   exec{'gitolite_setup':
