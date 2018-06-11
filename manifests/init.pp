@@ -125,15 +125,12 @@ class gitolite (
       mode    => '0700',
       require => User[$user],
     }
-    ssh::key {"${userhome}/.ssh/id_rsa":
-      user    => $user,
-      length  => 4096,
-      require => File["${userhome}/.ssh"],
-    }
-    ssh::key {"${userhome}/.ssh/id_ed25519":
-      type    => 'ed25519',
-      user    => $user,
-      require => File["${userhome}/.ssh"],
+
+    class{'gitolite::ssh_key':
+      filename => "${userhome}/.ssh/id_ed25519",
+      type     => 'ed25519',
+      user     => $user,
+      require  => File["${userhome}/.ssh"],
     }
   }
 
