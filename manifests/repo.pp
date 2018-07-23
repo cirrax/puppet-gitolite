@@ -51,7 +51,7 @@
 
 define gitolite::repo (
   Array  $repos       = [$title],
-  Array  $comments    = [],
+  Variant[String, Array]  $comments    = [],
   Hash   $rules       = {},
   Hash   $options     = {},
   Hash   $configs     = {},

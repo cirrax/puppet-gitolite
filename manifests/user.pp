@@ -30,7 +30,7 @@ define gitolite::user (
   Array  $keys        = [],
   String $key_source  = '',
   Array  $groups      = [],
-  Array  $comments    = [],
+  Variant[Array, String]  $comments    = [],
   String $order       = '',
 ){
 
