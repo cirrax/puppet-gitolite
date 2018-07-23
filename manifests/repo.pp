@@ -1,7 +1,7 @@
 # 
 # this resources defines a git repository
 # you also can use it to define values for a group of
-# repositories (by using an @ in fron of the group name)
+# repositories (by using an @ in front of the group name)
 #
 # parameters:
 # $repos
@@ -21,16 +21,32 @@
 #   additional configs, merged with configs
 # $git-configs = {},
 # $groups      = [],
-# an array of groups to append the repos to
-# the group names can be prefix with an @ sign
-# (if they are puppet take care of)
+#   an array of groups to append the repos to
+#   the group names can be prefix with an @ sign
+#   (if they are puppet take care of)
 # $order
-# string, to order the repos
-# $order will be prefixed with 60 for the grouping section
-# and 90 for the repo section.
-# defaults to ''
+#   string, to order the repos
+#   $order will be prefixed with 60 for the grouping section
+#   and 90 for the repo section.
+#   defaults to ''
 # $remotes = {}
-#   Hash of remote repos to sync
+#   Hash of remote repos to sync branches and tags from
+#   defaults to {}
+#   Example:
+#   'upstream' => {
+#     'url' => 'https://github.com/openstack/puppet-nova'
+#     'fetches' => [
+#       'master:master',
+#       'refs/tags/*:refs/tags/*',
+#       'refs/heads/stable/*:refs/heads/stable/*',
+#     ]
+#   }
+#   will update the master branch, all tags and all branches stable/*
+#   from the remote location mentioned in url.
+#
+#   To remove an upstrem you can set ensure to 'absent'
+#   You can set more than one repo to sync from, but it's up to you
+#   to ensure that no conflicts occur !
 #   
 
 define gitolite::repo (

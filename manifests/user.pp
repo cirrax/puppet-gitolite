@@ -15,14 +15,15 @@
 #   an array of comments to add to this section
 #   defaults to []
 # $groups
-# an array of groups to append the user to
-# the group names can be prefix with an @ sign
-# (if they are puppet take care of)
-# $order, defaults to []
-# string, to order the repos
-# $order will be prefixed with 30 for the grouping section
-# and 20 for the user section.
-# defaults to ''
+#   an array of groups to append the user to
+#   the group names can be prefix with an @ sign
+#   (if they are puppet take care of)
+#   defaults to []
+# $order 
+#   string, to order the repos
+#   $order will be prefixed with 30 for the grouping section
+#   and 20 for the user section.
+#   defaults to ''
 
 define gitolite::user (
   String $user        = $title,
