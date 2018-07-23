@@ -67,6 +67,9 @@
 #  defaults to empty (beware of "' etc ...)
 #  example:
 #  { '$REF_OR_FILENAME_PATT' => 'qr(^[0-9a-zA-Z][-0-9a-zA-Z._\@/+ :%,]*$)' }
+# $fetch_cron
+#   if a cronjob should be established to fetch from remote repos
+#   defaults to false
 
 class gitolite (
   $user,
@@ -98,6 +101,7 @@ class gitolite (
   $additional_packages         = $gitolite::params::additional_packages,
   $admin_key_source            = false,
   $admin_key                   = false,
+  $fetch_cron                  = false,
 ) inherits gitolite::params {
 
   ensure_packages($::gitolite::additional_packages)
@@ -209,6 +213,31 @@ class gitolite (
     ensure => directory,
     mode   => '0755',
     owner  => $user,
+  }
+
+  concat{ "${userhome}/upgrade-repos.sh":
+    owner => 'root',
+    group => 'root',
+    mode  => '0700',
+  }
+
+  concat::fragment{ "${userhome}/upgrade-repos.sh header":
+    target  => "${userhome}/upgrade-repos.sh",
+    content => "#!/bin/sh\n#managed with puppet (module gitolite)\n\n",
+    order   => '00',
+  }
+
+  if $fetch_cron {
+    cron{'fetch gitolite repos upstream':
+      command => "${userhome}/upgrade-repos.sh",
+      user    => 'root',
+      hour    => fqdn_rand(4, 'gitolite'),
+      minute  => fqdn_rand(60, 'gitolite'),
+    }
+  } else {
+    cron{'fetch gitolite repos upstream':
+      ensure => 'absent',
+    }
   }
 }
 

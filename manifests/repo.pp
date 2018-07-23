@@ -29,6 +29,9 @@
 # $order will be prefixed with 60 for the grouping section
 # and 90 for the repo section.
 # defaults to ''
+# $remotes = {}
+#   Hash of remote repos to sync
+#   
 
 define gitolite::repo (
   $repos       = [$title],
@@ -42,6 +45,7 @@ define gitolite::repo (
   $description = '',
   $hooks       = {},
   $group       = 'root',
+  $remotes     = {},
 ) {
 
   include gitolite
@@ -92,6 +96,24 @@ define gitolite::repo (
       target => "${gitolite::userhome}/scripts/${dest}",
       owner  => $gitolite::user,
       group  => $group,
+    }
+  }
+
+  $remotes.each | $thename, $rem | {
+    gitremote{$thename:
+      ensure    => pick($rem['ensure'], 'present'),
+      directory => "${gitolite::reporoot}/${title}.git",
+      confowner => $gitolite::user,
+      url       => $rem['url'],
+      fetches   => $rem['fetches'],
+    }
+
+    if pick($rem['ensure'], 'present') != 'absent' {
+      concat::fragment{ "gitolite upgrade-repos.sh: ${title} ${$thename}":
+        target  => "${gitolite::userhome}/upgrade-repos.sh",
+        content => "su ${gitolite::user} -c 'git -C ${gitolite::reporoot}/${title}.git fetch ${thename}'\n",
+        order   => md5("${title}_${thename}"),
+      }
     }
   }
 }
