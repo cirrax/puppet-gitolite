@@ -3,8 +3,8 @@
 #
 #
 define gitolite::users (
-  $defaults = {},
-  $users    = {},
+  Hash $defaults = {},
+  Hash $users    = {},
 ) {
 
   ensure_resources('gitolite::user', $users, $defaults)

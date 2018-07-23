@@ -72,21 +72,21 @@
 #   defaults to false
 
 class gitolite (
-  $user,
-  $userhome,
-  $reporoot                    = "${userhome}/repositories",
-  $user_ensure                 = true,
-  $umask                       = '0077',
-  $git_config_keys             = '.*',
-  $log_extra                   = false,
-  $log_dest                    = ['normal'],
-  $roles                       = ['READERS', 'WRITERS'],
-  $site_info                   = false,
-  $gitolite_hostname           = $::hostname,
-  $local_code                  = false,
-  $additional_gitoliterc       = {},
-  $additional_gitoliterc_notrc = {},
-  $commands                    = [
+  String  $user,
+  String  $userhome,
+  String  $reporoot                    = "${userhome}/repositories",
+  Boolean $user_ensure                 = true,
+  String  $umask                       = '0077',
+  String  $git_config_keys             = '.*',
+  Boolean $log_extra                   = false,
+  Array   $log_dest                    = ['normal'],
+  Array   $roles                       = ['READERS', 'WRITERS'],
+  Boolean $site_info                   = false,
+  String  $gitolite_hostname           = $::hostname,
+  Boolean $local_code                  = false,
+  Hash    $additional_gitoliterc       = {},
+  Hash    $additional_gitoliterc_notrc = {},
+  Array   $commands                    = [
     'help',
     'desc',
     'info',
@@ -97,11 +97,11 @@ class gitolite (
     'daemon',
     'gitweb',
   ],
-  $package_ensure              = present,
-  $additional_packages         = $gitolite::params::additional_packages,
-  $admin_key_source            = false,
-  $admin_key                   = false,
-  $fetch_cron                  = false,
+  String  $package_ensure              = 'present',
+  Array   $additional_packages         = $gitolite::params::additional_packages,
+  String  $admin_key_source            = '',
+  String  $admin_key                   = '',
+  Boolean $fetch_cron                  = false,
 ) inherits gitolite::params {
 
   ensure_packages($::gitolite::additional_packages)
@@ -195,14 +195,14 @@ class gitolite (
   $exec_update = Exec['gitolite_compile', 'gitolite_trigger_post_compile']
 
   # manage initial key, if provided
-  if $admin_key_source {
+  if $admin_key_source != '' {
     file { "${::gitolite::userhome}/.gitoline/key_dir/admin@init0.pub":
       source => $admin_key_source,
       notify => $exec_update,
     }
   }
 
-  if $admin_key {
+  if $admin_key != '' {
     file { "${::gitolite::userhome}/.gitoline/key_dir/admin@init1.pub":
       content => $admin_key,
       notify  => $exec_update,

@@ -3,8 +3,8 @@
 #
 #
 define gitolite::repos (
-  $defaults = {},
-  $repos    = {},
+  Hash $defaults = {},
+  Hash $repos    = {},
 ) {
 
   ensure_resources('gitolite::repo', $repos, $defaults)

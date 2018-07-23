@@ -21,10 +21,10 @@
 #   default: true
 #
 class gitolite::admin (
-  $remove_admin_repo = true,
-  $repos             = {},
-  $users             = {},
-  $add_testing_repo  = true,
+  Boolean $remove_admin_repo = true,
+  Hash    $repos             = {},
+  Hash    $users             = {},
+  Boolean $add_testing_repo  = true,
 ) inherits gitolite {
 
   include ::gitolite::params
@@ -99,7 +99,7 @@ find ${gh}/.puppet_userkeys -type d|sed 's|/\\.puppet_userkeys|/.puppet_userkeys
   if $add_testing_repo {
     gitolite::repo{'testing':
       rules    => { 'RW+' => '@all' },
-      comments => 'default for testing repo',
+      comments => ['default for testing repo'],
     }
   }
 

@@ -23,12 +23,12 @@
 #     containing the key. Defaults to "root"
 #
 class gitolite::ssh_key(
-  $filename = 'undef',
-  $type     = 'rsa',
-  $length   = 2048,
-  $password = '',
-  $comment  = 'undef',
-  $user     = 'root',
+  String  $filename,
+  String  $type     = 'rsa',
+  Integer $length   = 2048,
+  String  $password = '',
+  String  $comment  = 'undef',
+  String  $user     = 'root',
 ) {
 
   if $comment == 'undef' {

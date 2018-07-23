@@ -25,12 +25,12 @@
 # defaults to ''
 
 define gitolite::user (
-  $user        = $title,
-  $keys        = [],
-  $key_source  = '',
-  $groups      = [],
-  $comments    = [],
-  $order       = '',
+  String $user        = $title,
+  Array  $keys        = [],
+  String $key_source  = '',
+  Array  $groups      = [],
+  Array  $comments    = [],
+  String $order       = '',
 ){
 
   include ::gitolite

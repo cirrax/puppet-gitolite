@@ -34,18 +34,18 @@
 #   
 
 define gitolite::repo (
-  $repos       = [$title],
-  $comments    = [],
-  $rules       = {},
-  $options     = {},
-  $configs     = {},
-  $add_configs = {},
-  $groups      = [],
-  $order       = '',
-  $description = '',
-  $hooks       = {},
-  $group       = 'root',
-  $remotes     = {},
+  Array  $repos       = [$title],
+  Array  $comments    = [],
+  Hash   $rules       = {},
+  Hash   $options     = {},
+  Hash   $configs     = {},
+  Hash   $add_configs = {},
+  Array  $groups      = [],
+  String $order       = '',
+  String $description = '',
+  Hash   $hooks       = {},
+  String $group       = 'root',
+  Hash   $remotes     = {},
 ) {
 
   include gitolite
