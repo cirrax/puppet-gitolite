@@ -6,7 +6,7 @@
 #
 # Parameters:
 #   $filename:
-#     Filename (full path) for the key. Defaults to $title.
+#     Filename (full path) for the key. Required.
 #   $type:
 #     Type of key, either dsa, ecdsa or rsa. Defaults to rsa.
 #   $length:
@@ -37,16 +37,10 @@ class gitolite::ssh_key(
     $_comment = $comment
   }
 
-  if $filename == 'undef' {
-    $_filename = $title
-  } else {
-    $_filename = $filename
-  }
-
-  exec {"key-${title}":
+  exec {'key for gitolite':
     path    => ['/usr/bin', '/usr/sbin', '/bin'],
-    command => "ssh-keygen -t ${type} -b ${length} -C \"${_comment}\" -f ${_filename} -q -N \"${password}\"",
+    command => "ssh-keygen -t ${type} -b ${length} -C \"${_comment}\" -f ${filename} -q -N \"${password}\"",
     user    => $user,
-    creates => $_filename,
+    creates => $filename,
   }
 }
