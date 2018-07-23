@@ -48,7 +48,7 @@
 #  defaults to $::hostname
 # $local_code:
 #  suggested locations for site-local gitolite code
-#  defaults to false, no site-local code
+#  defaults to '', no site-local code
 # $additional_gitoliterc
 #  hash of additional lines to add on gitolite.rc file
 #  defaults to empty (beware of "' etc ...)
@@ -83,7 +83,7 @@ class gitolite (
   Array   $roles                       = ['READERS', 'WRITERS'],
   Boolean $site_info                   = false,
   String  $gitolite_hostname           = $::hostname,
-  Boolean $local_code                  = false,
+  String  $local_code                  = '',
   Hash    $additional_gitoliterc       = {},
   Hash    $additional_gitoliterc_notrc = {},
   Array   $commands                    = [

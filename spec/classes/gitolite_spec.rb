@@ -16,7 +16,7 @@ describe 'gitolite' do
        :roles                       => ['READERS', 'WRITERS'],
        :site_info                   => false,
        :gitolite_hostname           => 'myhostname',
-       :local_code                  => false,
+       :local_code                  => '',
        :additional_gitoliterc       => {},
        :additional_gitoliterc_notrc => {},
        :commands                    => [
