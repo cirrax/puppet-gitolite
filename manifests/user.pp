@@ -1,7 +1,7 @@
 # 
-# this resources defines a git repository
+# this resources defines a git user
 # you also can use it to define values for a group of
-# repositories (by using an @ in fron of the group name)
+# repositories (by using an @ in front of the group name)
 #
 # parameters:
 # $user
