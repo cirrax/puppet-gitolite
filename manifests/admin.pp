@@ -51,7 +51,7 @@ class gitolite::admin (
     'gitolite_conf_repo_header' => {
       'content' => "${h}\n# repo section\n\n",
       'order'   => '80',
-    }
+    },
   }
   ensure_resources('concat::fragment', $default_fragments, {'target' => $::gitolite::conffile })
 

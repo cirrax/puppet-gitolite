@@ -108,7 +108,7 @@ class gitolite (
 
   package{ $::gitolite::params::packages :
     ensure => $::gitolite::package_ensure,
-    tag    => 'gitolite'
+    tag    => 'gitolite',
   }
 
   #contain ::gitolite::setup
@@ -130,7 +130,7 @@ class gitolite (
       require => User[$user],
     }
 
-    class{'gitolite::ssh_key':
+    class{'::gitolite::ssh_key':
       filename => "${userhome}/.ssh/id_ed25519",
       type     => 'ed25519',
       user     => $user,
@@ -147,14 +147,14 @@ class gitolite (
     unless  => "test -d ~${user}/.gitolite",
     creates => "${userhome}/.gitolite",
     require => Package[$::gitolite::params::packages],
-  } ->
+  }
 
-  exec{'gitolite_compile':
+  -> exec{'gitolite_compile':
     command     => "su ${gitolite::user} -c 'gitolite compile'",
     refreshonly => true,
-  } ->
+  }
 
-  exec{'gitolite_trigger_post_compile':
+  -> exec{'gitolite_trigger_post_compile':
     command     => "su ${gitolite::user} -c 'gitolite trigger POST_COMPILE'",
     refreshonly => true,
   }
@@ -164,17 +164,17 @@ class gitolite (
       ensure => directory,
       owner  => $user,
       mode   => '0700',
-    } ->
+    }
 
-    exec{'gitolite: move repositories':
+    -> exec{'gitolite: move repositories':
       command => "mv ${userhome}/repositories/* ${reporoot}/; true",
       unless  => [
         "test -h ${userhome}/repositories",  # symplink ?
       ],
-    } ->
+    }
 
     # if linkpath is not a sym
-    exec{'gitolite: remove repositories directory':
+    -> exec{'gitolite: remove repositories directory':
       command => "rmdir ${userhome}/repositories;ln -sf ${reporoot} ${userhome}/repositories",
       unless  => [
         "test -h ${userhome}/repositories",                              # symlink ?
@@ -187,7 +187,7 @@ class gitolite (
     content => template('gitolite/gitolite.rc.erb'),
     mode    => '0700',
     owner   => $user,
-    notify  => Exec['gitolite_compile', 'gitolite_trigger_post_compile']
+    notify  => Exec['gitolite_compile', 'gitolite_trigger_post_compile'],
   }
 
   $conffile = "${gitolite::userhome}/.gitolite/conf/gitolite.conf"

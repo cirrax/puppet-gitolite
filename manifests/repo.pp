@@ -64,7 +64,7 @@ define gitolite::repo (
   Hash   $remotes     = {},
 ) {
 
-  include gitolite
+  include ::gitolite
 
   concat::fragment { "gitolite_conffile repo ${title}":
     target  => $::gitolite::conffile,
