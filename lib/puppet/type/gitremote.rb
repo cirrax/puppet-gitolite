@@ -6,6 +6,10 @@ Puppet::Type.newtype(:gitremote) do
 
   # parameters: change the way how the provider work
   newparam(:name) do
+    desc "the title"
+  end
+
+  newparam(:remotename) do
     desc "the name of the remote to create"
   end
 

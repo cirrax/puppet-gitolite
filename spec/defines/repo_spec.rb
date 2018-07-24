@@ -104,15 +104,17 @@ describe 'gitolite::repo' do
     end
     it_behaves_like 'gitolite::repo define'
 
-    it { is_expected.to contain_gitremote('upstream')
+    it { is_expected.to contain_gitremote('remote for ' + title + ' upstream')
       .with_ensure('present')
+      .with_remotename('upstream')
       .with_directory('/tmp/gitolite/repositories/' + title + '.git')
       .with_confowner('gitolite')
       .with_url('http://blah')
     }
 
-    it { is_expected.to contain_gitremote('noup')
+    it { is_expected.to contain_gitremote('remote for ' + title + ' noup')
       .with_ensure('absent')
+      .with_remotename('noup')
       .with_directory('/tmp/gitolite/repositories/' + title + '.git')
       .with_confowner('gitolite')
     }

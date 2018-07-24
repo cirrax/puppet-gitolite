@@ -116,12 +116,13 @@ define gitolite::repo (
   }
 
   $remotes.each | $thename, $rem | {
-    gitremote{$thename:
-      ensure    => pick($rem['ensure'], 'present'),
-      directory => "${gitolite::reporoot}/${title}.git",
-      confowner => $gitolite::user,
-      url       => $rem['url'],
-      fetches   => $rem['fetches'],
+    gitremote{"remote for ${title} ${thename}":
+      ensure     => pick($rem['ensure'], 'present'),
+      remotename => $thename,
+      directory  => "${gitolite::reporoot}/${title}.git",
+      confowner  => $gitolite::user,
+      url        => $rem['url'],
+      fetches    => $rem['fetches'],
     }
 
     if pick($rem['ensure'], 'present') != 'absent' {
