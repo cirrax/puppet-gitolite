@@ -1,0 +1,42 @@
+{
+  "name": "cirrax-gitolite",
+  "version": "1.1.0",
+  "author": "Cirrax GmbH",
+  "license": "GPL-3.0",
+  "summary": "A module to configure gitolite",
+  "source": "https://github.com/cirrax/puppet-gitolite",
+  "project_page": "https://github.com/cirrax/puppet-gitolite",
+  "issues_url": "https://github.com/cirrax/puppet-gitolite/issues",
+  "tags": [
+    "gitolite",
+    "git",
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "8",
+        "9"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu"
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">=4.0.0 < 6.0.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 3.2.0 < 6.0.0"
+    },
+    {
+      "name": "puppetlabs/concat",
+      "version_requirement": ">= 2.0.0 < 5.0.0"
+    }
+  ]
+}
