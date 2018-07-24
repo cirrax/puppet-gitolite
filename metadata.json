@@ -1,6 +1,6 @@
 {
   "name": "cirrax-gitolite",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "Cirrax GmbH",
   "license": "GPL-3.0",
   "summary": "A module to configure gitolite",
@@ -9,7 +9,7 @@
   "issues_url": "https://github.com/cirrax/puppet-gitolite/issues",
   "tags": [
     "gitolite",
-    "git",
+    "git"
   ],
   "operatingsystem_support": [
     {
