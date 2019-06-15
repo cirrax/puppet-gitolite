@@ -134,7 +134,7 @@ describe 'gitolite' do
           .with_ensure('absent')
       }
       it {
-        is_expected.not_to contain_file(params[:userhome] + '/.gitoline/key_dir/admin@init1.pub')
+        is_expected.not_to contain_file(params[:userhome] + '/.gitolite/keydir/admin@init1.pub')
       }
     end
 
@@ -221,7 +221,7 @@ describe 'gitolite' do
       it_behaves_like 'gitolite shared example user creation'
 
       it {
-        is_expected.to contain_file(params[:userhome] + '/.gitoline/key_dir/admin@init0.pub')
+        is_expected.to contain_file(params[:userhome] + '/.gitolite/keydir/admin@init0.pub')
           .with_source(params[:admin_key_source])
       }
     end
@@ -235,7 +235,7 @@ describe 'gitolite' do
       it_behaves_like 'gitolite shared example user creation'
 
       it {
-        is_expected.to contain_file(params[:userhome] + '/.gitoline/key_dir/admin@init1.pub')
+        is_expected.to contain_file(params[:userhome] + '/.gitolite/keydir/admin@init1.pub')
           .with_content(params[:admin_key])
       }
     end

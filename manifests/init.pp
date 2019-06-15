@@ -197,14 +197,14 @@ class gitolite (
 
   # manage initial key, if provided
   if $admin_key_source != '' {
-    file { "${::gitolite::userhome}/.gitoline/key_dir/admin@init0.pub":
+    file { "${keydir}/admin@init0.pub":
       source => $admin_key_source,
       notify => $exec_update,
     }
   }
 
   if $admin_key != '' {
-    file { "${::gitolite::userhome}/.gitoline/key_dir/admin@init1.pub":
+    file { "${keydir}/admin@init1.pub":
       content => $admin_key,
       notify  => $exec_update,
     }
