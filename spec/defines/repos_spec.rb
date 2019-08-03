@@ -9,7 +9,7 @@ describe 'gitolite::repos' do
   end
 
   context 'whith defaults' do
-    let (:title) { 'repos' }
+    let(:title) { 'repos' }
 
     it_behaves_like 'gitolite::repos define'
   end

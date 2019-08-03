@@ -9,7 +9,7 @@ describe 'gitolite::users' do
   end
 
   context 'whith defaults' do
-    let (:title) { 'users' }
+    let(:title) { 'users' }
 
     it_behaves_like 'gitolite::users define'
   end

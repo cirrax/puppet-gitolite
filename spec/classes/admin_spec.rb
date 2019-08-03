@@ -51,7 +51,7 @@ describe 'gitolite::admin' do
 
     it {
       is_expected.to contain_exec('gitolite update user keys from source')
-        .with_command(/^\/bin\/true/)
+        .with_command(%r{^/bin/true})
         .with_refreshonly(true)
         .with_before('File[/tmp/gitolite/.gitolite/keydir]')
         .with_require('File[/tmp/gitolite/.puppet_userkeys]')

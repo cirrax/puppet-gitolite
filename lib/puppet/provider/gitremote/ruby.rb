@@ -11,7 +11,8 @@ Puppet::Type.type(:gitremote).provide(:ruby) do
     # now we need to set the correct fetchers
     begin
       (gitcommand '-C', resource[:directory], 'config', '--unset-all', 'remote.' + resource[:remotename] + '.fetch')
-    rescue Puppet::ExecutionFailure => e
+    rescue Puppet::ExecutionFailure
+      []
     end
     resource[:fetches].each do |fetch|
       (gitcommand '-C', resource[:directory], 'config', '--add', 'remote.' + resource[:remotename] + '.fetch', fetch)
@@ -45,7 +46,7 @@ Puppet::Type.type(:gitremote).provide(:ruby) do
     # return the current fetches
 
     (gitcommand '-C', resource[:directory], 'config', '--get-all', 'remote.' + resource[:remotename] + '.fetch').split("\n")
-  rescue Puppet::ExecutionFailure => e
+  rescue Puppet::ExecutionFailure
     []
   end
 
@@ -53,7 +54,8 @@ Puppet::Type.type(:gitremote).provide(:ruby) do
     #  set the fetches
     begin
       (gitcommand '-C', resource[:directory], 'config', '--unset-all', 'remote.' + resource[:remotename] + '.fetch')
-    rescue Puppet::ExecutionFailure => e
+    rescue Puppet::ExecutionFailure
+      []
     end
     resource[:fetches].each do |fetch|
       (gitcommand '-C', resource[:directory], 'config', '--add', 'remote.' + resource[:remotename] + '.fetch', fetch)

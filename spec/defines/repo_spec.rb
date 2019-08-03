@@ -49,7 +49,7 @@ describe 'gitolite::repo' do
   end
 
   context 'whith defaults' do
-    let (:title) { 'testrepo' }
+    let(:title) { 'testrepo' }
     let :params do
       default_params
     end
@@ -58,7 +58,7 @@ describe 'gitolite::repo' do
   end
 
   context 'whith description' do
-    let (:title) { 'anotherrepo' }
+    let(:title) { 'anotherrepo' }
     let :params do
       default_params.merge(description: 'my description')
     end
@@ -74,7 +74,7 @@ describe 'gitolite::repo' do
   end
 
   context 'whith groups' do
-    let (:title) { 'grouprepo' }
+    let(:title) { 'grouprepo' }
     let :params do
       default_params.merge(groups: ['blah'])
     end
@@ -88,7 +88,7 @@ describe 'gitolite::repo' do
   end
 
   context 'with hooks' do
-    let (:title) { 'hookrepo' }
+    let(:title) { 'hookrepo' }
     let :params do
       default_params.merge(hooks: { 'hook1' => {} })
     end
@@ -104,7 +104,7 @@ describe 'gitolite::repo' do
   end
 
   context 'with remotes' do
-    let (:title) { 'remoterepo' }
+    let(:title) { 'remoterepo' }
     let :params do
       default_params.merge(remotes: { 'upstream' => { 'url' => 'http://blah' }, 'noup' => { 'ensure' => 'absent' } })
     end

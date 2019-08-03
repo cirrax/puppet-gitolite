@@ -14,7 +14,7 @@ describe 'gitolite::user' do
   end
 
   context 'whith defaults' do
-    let (:title) { 'testuser' }
+    let(:title) { 'testuser' }
 
     it_behaves_like 'gitolite::user define'
   end
