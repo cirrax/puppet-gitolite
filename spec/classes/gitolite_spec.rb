@@ -120,137 +120,139 @@ describe 'gitolite' do
     }
   end
 
-  context 'with defaults' do
-    let :params do
-      default_params
+  on_supported_os.each do |_os, _os_facts|
+    context 'on #{os}, with defaults' do
+      let :params do
+        default_params
+      end
+
+      it_behaves_like 'gitolite shared examples'
+      it_behaves_like 'gitolite shared example user creation'
+
+      it {
+        is_expected.to contain_cron('fetch gitolite repos upstream')
+          .with_ensure('absent')
+      }
+      it {
+        is_expected.not_to contain_file(params[:userhome] + '/.gitoline/key_dir/admin@init1.pub')
+      }
     end
 
-    it_behaves_like 'gitolite shared examples'
-    it_behaves_like 'gitolite shared example user creation'
+    context 'on #{os}, without user_ensure' do
+      let :params do
+        default_params.merge(user_ensure: false)
+      end
 
-    it {
-      is_expected.to contain_cron('fetch gitolite repos upstream')
-        .with_ensure('absent')
-    }
-    it {
-      is_expected.not_to contain_file(params[:userhome] + '/.gitoline/key_dir/admin@init1.pub')
-    }
-  end
+      it_behaves_like 'gitolite shared examples'
 
-  context 'without user_ensure' do
-    let :params do
-      default_params.merge(user_ensure: false)
+      it {
+        is_expected.not_to contain_user(params[:user])
+      }
+      it {
+        is_expected.not_to contain_file(params[:userhome] + '/.ssh')
+      }
+      it {
+        is_expected.not_to contain_class('gitolite::ssh_key')
+      }
     end
 
-    it_behaves_like 'gitolite shared examples'
+    context 'on #{os}, with reporoot not in userhome' do
+      let :params do
+        default_params.merge(reporoot: '/srv/gitolite')
+      end
 
-    it {
-      is_expected.not_to contain_user(params[:user])
-    }
-    it {
-      is_expected.not_to contain_file(params[:userhome] + '/.ssh')
-    }
-    it {
-      is_expected.not_to contain_class('gitolite::ssh_key')
-    }
-  end
+      it_behaves_like 'gitolite shared examples'
+      it_behaves_like 'gitolite shared example user creation'
 
-  context 'with reporoot not in userhome' do
-    let :params do
-      default_params.merge(reporoot: '/srv/gitolite')
+      it {
+        is_expected.to contain_file(params[:reporoot])
+          .with_ensure('directory')
+          .with_owner(params[:user])
+          .with_mode('0700')
+      }
+      it {
+        is_expected.to contain_exec('gitolite: move repositories')
+          .with_command(%r{^mv })
+      }
+
+      it {
+        is_expected.to contain_exec('gitolite: remove repositories directory')
+          .with_command(%r{^rmdir})
+      }
     end
 
-    it_behaves_like 'gitolite shared examples'
-    it_behaves_like 'gitolite shared example user creation'
+    context 'on #{os}, with additional packages' do
+      let :params do
+        default_params.merge(additional_packages: ['somepackage'])
+      end
 
-    it {
-      is_expected.to contain_file(params[:reporoot])
-        .with_ensure('directory')
-        .with_owner(params[:user])
-        .with_mode('0700')
-    }
-    it {
-      is_expected.to contain_exec('gitolite: move repositories')
-        .with_command(%r{^mv })
-    }
+      it_behaves_like 'gitolite shared examples'
+      it_behaves_like 'gitolite shared example user creation'
 
-    it {
-      is_expected.to contain_exec('gitolite: remove repositories directory')
-        .with_command(%r{^rmdir})
-    }
-  end
-
-  context 'with additional packages' do
-    let :params do
-      default_params.merge(additional_packages: ['somepackage'])
+      it {
+        is_expected.to contain_package('somepackage')
+      }
     end
 
-    it_behaves_like 'gitolite shared examples'
-    it_behaves_like 'gitolite shared example user creation'
+    context 'on #{os}, with non default user' do
+      let :params do
+        default_params.merge(user: 'better_user')
+      end
 
-    it {
-      is_expected.to contain_package('somepackage')
-    }
-  end
-
-  context 'with non default user' do
-    let :params do
-      default_params.merge(user: 'better_user')
+      it_behaves_like 'gitolite shared examples'
+      it_behaves_like 'gitolite shared example user creation'
     end
 
-    it_behaves_like 'gitolite shared examples'
-    it_behaves_like 'gitolite shared example user creation'
-  end
+    context 'on #{os}, with non default userhome' do
+      let :params do
+        default_params.merge(userhome: '/tmp/git')
+      end
 
-  context 'with non default userhome' do
-    let :params do
-      default_params.merge(userhome: '/tmp/git')
+      it_behaves_like 'gitolite shared examples'
+      it_behaves_like 'gitolite shared example user creation'
     end
 
-    it_behaves_like 'gitolite shared examples'
-    it_behaves_like 'gitolite shared example user creation'
-  end
+    context 'on #{os}, with admin_key_source' do
+      let :params do
+        default_params.merge(admin_key_source: 'file://somewhere')
+      end
 
-  context 'with admin_key_source' do
-    let :params do
-      default_params.merge(admin_key_source: 'file://somewhere')
+      it_behaves_like 'gitolite shared examples'
+      it_behaves_like 'gitolite shared example user creation'
+
+      it {
+        is_expected.to contain_file(params[:userhome] + '/.gitoline/key_dir/admin@init0.pub')
+          .with_source(params[:admin_key_source])
+      }
     end
 
-    it_behaves_like 'gitolite shared examples'
-    it_behaves_like 'gitolite shared example user creation'
+    context 'on #{os}, with admin_key' do
+      let :params do
+        default_params.merge(admin_key: 'blah_fasel')
+      end
 
-    it {
-      is_expected.to contain_file(params[:userhome] + '/.gitoline/key_dir/admin@init0.pub')
-        .with_source(params[:admin_key_source])
-    }
-  end
+      it_behaves_like 'gitolite shared examples'
+      it_behaves_like 'gitolite shared example user creation'
 
-  context 'with admin_key' do
-    let :params do
-      default_params.merge(admin_key: 'blah_fasel')
+      it {
+        is_expected.to contain_file(params[:userhome] + '/.gitoline/key_dir/admin@init1.pub')
+          .with_content(params[:admin_key])
+      }
     end
 
-    it_behaves_like 'gitolite shared examples'
-    it_behaves_like 'gitolite shared example user creation'
+    context 'on #{os}, with fetch_cron enabled' do
+      let :params do
+        default_params.merge(fetch_cron: true)
+      end
 
-    it {
-      is_expected.to contain_file(params[:userhome] + '/.gitoline/key_dir/admin@init1.pub')
-        .with_content(params[:admin_key])
-    }
-  end
+      it_behaves_like 'gitolite shared examples'
+      it_behaves_like 'gitolite shared example user creation'
 
-  context 'with fetch_cron enabled' do
-    let :params do
-      default_params.merge(fetch_cron: true)
+      it {
+        is_expected.to contain_cron('fetch gitolite repos upstream')
+          .with_user('root')
+          .with_command(params[:userhome] + '/upgrade-repos.sh')
+      }
     end
-
-    it_behaves_like 'gitolite shared examples'
-    it_behaves_like 'gitolite shared example user creation'
-
-    it {
-      is_expected.to contain_cron('fetch gitolite repos upstream')
-        .with_user('root')
-        .with_command(params[:userhome] + '/upgrade-repos.sh')
-    }
   end
 end
