@@ -16,8 +16,6 @@ describe 'gitolite::admin' do
   shared_examples 'gitolite::admin shared examples' do
     it { is_expected.to compile.with_all_deps }
 
-    it { is_expected.to contain_class('gitolite::params') }
-
     it {
       is_expected.to contain_concat('/tmp/gitolite/.gitolite/conf/gitolite.conf')
         .with_ensure('present')

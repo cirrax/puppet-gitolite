@@ -98,15 +98,16 @@ class gitolite (
     'gitweb',
   ],
   String  $package_ensure              = 'present',
-  Array   $additional_packages         = $gitolite::params::additional_packages,
+  Array   $packages                    = [],
+  Array   $additional_packages         = [],
   String  $admin_key_source            = '',
   String  $admin_key                   = '',
   Boolean $fetch_cron                  = false,
-) inherits gitolite::params {
+) {
 
   ensure_packages($::gitolite::additional_packages)
 
-  package{ $::gitolite::params::packages :
+  package{ $packages :
     ensure => $::gitolite::package_ensure,
     tag    => 'gitolite',
   }
@@ -146,7 +147,7 @@ class gitolite (
     command => "su ${gitolite::user} -c 'gitolite setup -a dummy; mkdir ~/.gitolite/keydir'",
     unless  => "test -d ~${user}/.gitolite",
     creates => "${userhome}/.gitolite",
-    require => Package[$::gitolite::params::packages],
+    require => Package[$packages],
   }
 
   -> exec{'gitolite_compile':

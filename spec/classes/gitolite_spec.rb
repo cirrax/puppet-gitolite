@@ -31,6 +31,7 @@ describe 'gitolite' do
         'gitweb',
       ],
       package_ensure: 'present',
+      packages: ['gitolite3'],
       additional_packages: [],
       admin_key_source: '',
       admin_key: '',

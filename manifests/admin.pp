@@ -27,8 +27,6 @@ class gitolite::admin (
   Boolean $add_testing_repo  = true,
 ) inherits gitolite {
 
-  include ::gitolite::params
-
   concat { $::gitolite::conffile:
     ensure => present,
     notify => $::gitolite::exec_update,
