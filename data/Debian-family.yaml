@@ -1,4 +1,5 @@
 ---
+# module: gitolite, Debian-family.yaml
 
-packages:
+gitolite::packages:
   - 'gitolite3'
