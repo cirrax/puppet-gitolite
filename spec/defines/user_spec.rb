@@ -3,7 +3,6 @@ require 'spec_helper'
 
 describe 'gitolite::user' do
   let(:pre_condition) { 'class {"::gitolite": user => "gitolite", userhome => "/tmp/gitolite" }' }
-  let(:facts) { { osfamily: 'Debian' } }
 
   shared_examples 'gitolite::user define' do
     context 'it compiles with all dependencies' do
@@ -13,9 +12,15 @@ describe 'gitolite::user' do
     it { is_expected.to contain_class('gitolite') }
   end
 
-  context 'whith defaults' do
-    let(:title) { 'testuser' }
+  on_supported_os.each do |os, os_facts|
+    context "on #{os}" do
+      let(:facts) { os_facts }
 
-    it_behaves_like 'gitolite::user define'
+      context 'whith defaults' do
+        let(:title) { 'testuser' }
+
+        it_behaves_like 'gitolite::user define'
+      end
+    end
   end
 end

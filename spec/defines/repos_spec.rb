@@ -8,9 +8,15 @@ describe 'gitolite::repos' do
     end
   end
 
-  context 'whith defaults' do
-    let(:title) { 'repos' }
+  on_supported_os.each do |os, os_facts|
+    context "on #{os}" do
+      let(:facts) { os_facts }
 
-    it_behaves_like 'gitolite::repos define'
+      context 'whith defaults' do
+        let(:title) { 'repos' }
+
+        it_behaves_like 'gitolite::repos define'
+      end
+    end
   end
 end

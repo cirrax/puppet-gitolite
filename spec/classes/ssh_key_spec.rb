@@ -2,8 +2,6 @@
 require 'spec_helper'
 
 describe 'gitolite::ssh_key' do
-  let(:facts) { { osfamily: 'Debian' } }
-
   let :default_params do
     { filename: '/tmp/ssh_key',
       type: 'rsa',
@@ -24,27 +22,32 @@ describe 'gitolite::ssh_key' do
         .with_command(%r{^ssh-keygen -t})
     }
   end
+  on_supported_os.each do |os, os_facts|
+    context "on #{os}" do
+      let(:facts) { os_facts }
 
-  context 'with defaults' do
-    let :params do
-      default_params
+      context 'with defaults' do
+        let :params do
+          default_params
+        end
+
+        it_behaves_like 'gitolite::ssh_key shared examples'
+      end
+
+      context 'with non defaults' do
+        let :params do
+          default_params.merge(
+            filename: '/tmp/another_location',
+            type: 'ecdsa',
+            length: 4000,
+            password: 'password',
+            comment: 'somecomment',
+            user: 'gitolite',
+          )
+        end
+
+        it_behaves_like 'gitolite::ssh_key shared examples'
+      end
     end
-
-    it_behaves_like 'gitolite::ssh_key shared examples'
-  end
-
-  context 'with non defaults' do
-    let :params do
-      default_params.merge(
-        filename: '/tmp/another_location',
-        type: 'ecdsa',
-        length: 4000,
-        password: 'password',
-        comment: 'somecomment',
-        user: 'gitolite',
-      )
-    end
-
-    it_behaves_like 'gitolite::ssh_key shared examples'
   end
 end

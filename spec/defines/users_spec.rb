@@ -8,9 +8,15 @@ describe 'gitolite::users' do
     end
   end
 
-  context 'whith defaults' do
-    let(:title) { 'users' }
+  on_supported_os.each do |os, os_facts|
+    context "on #{os}" do
+      let(:facts) { os_facts }
 
-    it_behaves_like 'gitolite::users define'
+      context 'whith defaults' do
+        let(:title) { 'users' }
+
+        it_behaves_like 'gitolite::users define'
+      end
+    end
   end
 end

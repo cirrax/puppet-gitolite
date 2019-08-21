@@ -2,8 +2,6 @@
 require 'spec_helper'
 
 describe 'gitolite' do
-  let(:facts) { { osfamily: 'Debian' } }
-
   let :default_params do
     { user: 'gitolite',
       userhome: '/var/lib/gitolite',

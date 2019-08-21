@@ -4,8 +4,6 @@ require 'spec_helper'
 describe 'gitolite::admin' do
   let(:pre_condition) { 'class {"::gitolite": user => "gitolite", userhome => "/tmp/gitolite" }' }
 
-  let(:facts) { { osfamily: 'Debian' } }
-
   let :default_params do
     { remove_admin_repo: true,
       repos: {},
@@ -55,73 +53,78 @@ describe 'gitolite::admin' do
         .with_require('File[/tmp/gitolite/.puppet_userkeys]')
     }
   end
+  on_supported_os.each do |os, os_facts|
+    context "on #{os}" do
+      let(:facts) { os_facts }
 
-  context 'with defaults' do
-    let :params do
-      default_params
+      context 'with defaults' do
+        let :params do
+          default_params
+        end
+
+        it_behaves_like 'gitolite::admin shared examples'
+
+        it {
+          is_expected.to contain_gitolite__repo('testing')
+            .with_rules('RW+' => '@all')
+            .with_comments(['default for testing repo'])
+        }
+
+        it {
+          is_expected.to contain_file('/tmp/gitolite/repositories/gitolite-admin.git')
+        }
+      end
+
+      context 'with removal of admin_repo' do
+        let :params do
+          default_params.merge(remove_admin_repo: true)
+        end
+
+        it_behaves_like 'gitolite::admin shared examples'
+
+        it {
+          is_expected.to contain_file('/tmp/gitolite/repositories/gitolite-admin.git')
+            .with_ensure('absent')
+            .with_force(true)
+            .with_backup(false)
+        }
+      end
+
+      context 'without creation of testing repo' do
+        let :params do
+          default_params.merge(add_testing_repo: false)
+        end
+
+        it_behaves_like 'gitolite::admin shared examples'
+
+        it {
+          is_expected.not_to contain_gitolite__repo('testing')
+        }
+      end
+
+      context 'with users' do
+        let :params do
+          default_params.merge(users: { 'someuser' => {} })
+        end
+
+        it_behaves_like 'gitolite::admin shared examples'
+
+        it {
+          is_expected.to contain_gitolite__user('someuser')
+        }
+      end
+
+      context 'with repos' do
+        let :params do
+          default_params.merge(repos: { 'myrepo' => {} })
+        end
+
+        it_behaves_like 'gitolite::admin shared examples'
+
+        it {
+          is_expected.to contain_gitolite__repo('myrepo')
+        }
+      end
     end
-
-    it_behaves_like 'gitolite::admin shared examples'
-
-    it {
-      is_expected.to contain_gitolite__repo('testing')
-        .with_rules('RW+' => '@all')
-        .with_comments(['default for testing repo'])
-    }
-
-    it {
-      is_expected.to contain_file('/tmp/gitolite/repositories/gitolite-admin.git')
-    }
-  end
-
-  context 'with removal of admin_repo' do
-    let :params do
-      default_params.merge(remove_admin_repo: true)
-    end
-
-    it_behaves_like 'gitolite::admin shared examples'
-
-    it {
-      is_expected.to contain_file('/tmp/gitolite/repositories/gitolite-admin.git')
-        .with_ensure('absent')
-        .with_force(true)
-        .with_backup(false)
-    }
-  end
-
-  context 'without creation of testing repo' do
-    let :params do
-      default_params.merge(add_testing_repo: false)
-    end
-
-    it_behaves_like 'gitolite::admin shared examples'
-
-    it {
-      is_expected.not_to contain_gitolite__repo('testing')
-    }
-  end
-
-  context 'with users' do
-    let :params do
-      default_params.merge(users: { 'someuser' => {} })
-    end
-
-    it_behaves_like 'gitolite::admin shared examples'
-
-    it {
-      is_expected.to contain_gitolite__user('someuser')
-    }
-  end
-
-  context 'with repos' do
-    let :params do
-      default_params.merge(repos: { 'myrepo' => {} })
-    end
-
-    it_behaves_like 'gitolite::admin shared examples'
-
-    it {
-      is_expected.to contain_gitolite__repo('myrepo')
-    }
   end
 end
