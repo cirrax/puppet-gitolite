@@ -8,15 +8,14 @@
 # there is no puppet way back, only manual work
 # will get you back)
 #
-# Parameters:
-# $remove_admin_repo:
+# @param remove_admin_repo
 #   if true (the default) the repository
 #   gitoline_admin.git will be removed
-# $repos:
+# @param repos
 #   a hash of repos, to be defined
-# $users:
+# @param users
 #   a hash of users, to be defined
-# $add_testing_repo
+# @param add_testing_repo
 #   allow RW+ for all users to the testing repo
 #   default: true
 #

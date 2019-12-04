@@ -39,6 +39,8 @@ If gitolite::admin is not included, you can use the admin git repo to do these t
 ## Reference
 
 Find documentation about possible parameters on top of each manifest.
+Also see [REFERENCE.md](REFERENCE.md)
+
 ### classes
 
 #### gitolite

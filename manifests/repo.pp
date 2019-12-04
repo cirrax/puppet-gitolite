@@ -3,33 +3,36 @@
 # you also can use it to define values for a group of
 # repositories (by using an @ in front of the group name)
 #
-# parameters:
-# $repos
+# @param repos
 #   an array of repos (or a group of repos ( @blah )
 #   defaults to [ $title ]
-# $comments
+# @param comments
 #   an array of comments to add defaults to []
-# $rules
+# @param rules
 #   an array of rules.
 #   a rule has three elements:
 #   permission, refex and user/group
 #   a hash of permissions:
 #   [{ 'RW+' => 'username'}, ... ]
-# $options     = {},
-# $configs     = {},
-# $add_configs = {},
+# @param options
+# @param configs
+# @param add_configs
 #   additional configs, merged with configs
-# $git-configs = {},
-# $groups      = [],
+# @param groups
 #   an array of groups to append the repos to
 #   the group names can be prefix with an @ sign
 #   (if they are puppet take care of)
-# $order
+# @param order
 #   string, to order the repos
 #   $order will be prefixed with 60 for the grouping section
 #   and 90 for the repo section.
 #   defaults to ''
-# $remotes = {}
+# @param description
+#   a description to add to the repo
+# @param hooks
+#   hooks to install
+# @param group
+# @param remotes
 #   Hash of remote repos to sync branches and tags from
 #   defaults to {}
 #   Example:
@@ -48,7 +51,7 @@
 #   You can set more than one repo to sync from, but it's up to you
 #   to ensure that no conflicts occur !
 #   
-
+#
 define gitolite::repo (
   Array  $repos       = [$title],
   Variant[String, Array]  $comments    = [],
@@ -86,6 +89,7 @@ define gitolite::repo (
       content => $description,
       owner   => $gitolite::user,
       group   => $group,
+      tag     => ['gitolite-repo'],
     }
   }
 
@@ -96,6 +100,7 @@ define gitolite::repo (
     group   => $group,
     purge   => true,
     recurse => true,
+    tag     => ['gitolite-repo'],
   }
 
   # ensure that the gitolite hook is not overwritten.
