@@ -105,6 +105,8 @@ class gitolite (
   Boolean $fetch_cron                  = false,
 ) {
 
+  Exec['gitolite_compile'] -> File <| tag == 'gitolite-repo' |>
+
   ensure_packages($::gitolite::additional_packages)
 
   package{ $packages :

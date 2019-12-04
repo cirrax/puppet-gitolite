@@ -86,6 +86,7 @@ define gitolite::repo (
       content => $description,
       owner   => $gitolite::user,
       group   => $group,
+      tag     => ['gitolite-repo'],
     }
   }
 
@@ -96,6 +97,7 @@ define gitolite::repo (
     group   => $group,
     purge   => true,
     recurse => true,
+    tag     => ['gitolite-repo'],
   }
 
   # ensure that the gitolite hook is not overwritten.
