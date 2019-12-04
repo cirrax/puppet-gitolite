@@ -4,23 +4,22 @@
 # Key generation for (passwordless) authentication to a
 # remote system.
 #
-# Parameters:
-#   $filename:
-#     Filename (full path) for the key. Required.
-#   $type:
-#     Type of key, either dsa, ecdsa or rsa. Defaults to rsa.
-#   $length:
-#     Key length. Defaults to 2048. See man ssh-keygen for restrictions
-#     regarding non RSA keys.
-#   $password:
-#     Password for the key. Defaults to no password. This is not very secure
-#     as the password is visible in plain text in the puppet manifest and as a
-#     process parameters when creating the key.
-#   $comment:
-#     Comment describing the Key. Defaults to "Automatic authentication key for $user on $fqdn".
-#   $user:
-#     User who uses this key. This user must have write access to the directory
-#     containing the key. Defaults to "root"
+# @param filename
+#   Filename (full path) for the key. Required.
+# @param type
+#   Type of key, either dsa, ecdsa or rsa. Defaults to rsa.
+# @param length
+#   Key length. Defaults to 2048. See man ssh-keygen for restrictions
+#   regarding non RSA keys.
+# @param password
+#   Password for the key. Defaults to no password. This is not very secure
+#   as the password is visible in plain text in the puppet manifest and as a
+#   process parameters when creating the key.
+# @param comment
+#   Comment describing the Key. Defaults to "Automatic authentication key for $user on $fqdn".
+# @param user
+#   User who uses this key. This user must have write access to the directory
+#   containing the key. Defaults to "root"
 #
 class gitolite::ssh_key(
   String  $filename,

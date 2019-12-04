@@ -6,30 +6,29 @@
 # (manage users, permissions etc. throug the git repository 
 # gitolite-admin.git.)
 #
-# Parameters:
-# $reporoot:
+# @param reporoot
 #  path to the directory where you will store the repositories.
 #  This does not have to be equal to the $users home directory.
 #  defaults to $userhome
-# $user:
+# @param user
 #  the user to host the git repositories
 #  this user needs a home directory to work with gitolite.
-# $userhome:
+# @param userhome
 #  the home directory of the user
-# $user_ensure:
+# @param user_ensure
 #  if true, $user will be created, if false, you have
 #  to create the user with the homedirectory elsewhere.
 #  defaults to true
-# $umask:
+# @param umask
 #  see the rc file docs for how/why you might change this
 #  defaults to '0077' which gives perms of '0700'
-# $git_config_keys:
+# @param git_config_keys
 #  look for "git-config" in the documentation
 #  default: '.*'
-# $log_extra:
+# @param log_extra
 #  set to true for extra log details
 #  default: false
-# $log_dest:
+# @param log_dest
 #  array of log destinations.
 #  available values are:
 #    normal: normal gitolite logs
@@ -37,40 +36,46 @@
 #    repo-log: log just the update records to
 #              gl-log in the bare repo directory
 #  defaults to ['normal']
-# $roles:
+# @param roles
 #  Array of roles to add.
 #  default: ['READERS', 'WRITERS']
-# $site_info:
+# @param site_info
 #  the 'info' command prints this as additional info
 #  default to false
-# $gitolite_hostname:
+# @param gitolite_hostname
 #  the hostname, to unset, set to false
 #  defaults to $::hostname
-# $local_code:
+# @param local_code
 #  suggested locations for site-local gitolite code
 #  defaults to '', no site-local code
-# $additional_gitoliterc
+# @param additional_gitoliterc
 #  hash of additional lines to add on gitolite.rc file
 #  defaults to empty (beware of "' etc ...)
 #  example:
 #  { 'CACHE' => '"Redis"' }
-# $commands:
+# @param commands
 #  Array of commands and features to enable
 #  defaults to ['help', 'desc', 'info', 'perms' ]
-# $admin_key_source      = false,
+# @param package_ensure
+#  howto ensure the packages to install
+# @param packages
+#  packages to install for gitolite
+# @param additional_packages
+#  any additional packages you like to install
+# @param admin_key_source
 #  provide a admin key source (default to false)
-# $admin_key             = false,
+# @param admin_key
 #  admin key (string) (default to false)
-# $additional_gitoliterc_notrc
+# @param additional_gitoliterc_notrc
 #  hash of additional lines to add on gitolite.rc file
 #  after the rc vars
 #  defaults to empty (beware of "' etc ...)
 #  example:
 #  { '$REF_OR_FILENAME_PATT' => 'qr(^[0-9a-zA-Z][-0-9a-zA-Z._\@/+ :%,]*$)' }
-# $fetch_cron
+# @param fetch_cron
 #   if a cronjob should be established to fetch from remote repos
 #   defaults to false
-
+#
 class gitolite (
   String  $user,
   String  $userhome,

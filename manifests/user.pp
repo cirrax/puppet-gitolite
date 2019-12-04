@@ -3,28 +3,27 @@
 # you also can use it to define values for a group of
 # repositories (by using an @ in front of the group name)
 #
-# parameters:
-# $user
+# @param user
 #   the user name
 #   defaults to $title
-# $keys
+# @param keys
 #   array of users ssh keys
-# $key_source 
+# @param key_source 
 #   a puppet source to fetch key from
-# $comments
+# @param comments
 #   an array of comments to add to this section
 #   defaults to []
-# $groups
+# @param groups
 #   an array of groups to append the user to
 #   the group names can be prefix with an @ sign
 #   (if they are puppet take care of)
 #   defaults to []
-# $order 
+# @param order 
 #   string, to order the repos
 #   $order will be prefixed with 30 for the grouping section
 #   and 20 for the user section.
 #   defaults to ''
-
+#
 define gitolite::user (
   String $user        = $title,
   Array  $keys        = [],
