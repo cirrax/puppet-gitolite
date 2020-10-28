@@ -50,21 +50,24 @@
 #   To remove an upstream you can set ensure to 'absent'
 #   You can set more than one repo to sync from, but it's up to you
 #   to ensure that no conflicts occur !
-#   
+# @param remote_option
+#   additional options to add when fetching the remotes.
+#   Defaults to '', example add '-v' for verbose output.
 #
 define gitolite::repo (
-  Array  $repos       = [$title],
-  Variant[String, Array]  $comments    = [],
-  Hash   $rules       = {},
-  Hash   $options     = {},
-  Hash   $configs     = {},
-  Hash   $add_configs = {},
-  Array  $groups      = [],
-  String $order       = '',
-  String $description = '',
-  Hash   $hooks       = {},
-  String $group       = 'root',
-  Hash   $remotes     = {},
+  Array  $repos                     = [$title],
+  Variant[String, Array]  $comments = [],
+  Hash   $rules                     = {},
+  Hash   $options                   = {},
+  Hash   $configs                   = {},
+  Hash   $add_configs               = {},
+  Array  $groups                    = [],
+  String $order                     = '',
+  String $description               = '',
+  Hash   $hooks                     = {},
+  String $group                     = 'root',
+  Hash   $remotes                   = {},
+  String $remote_option             = '',
 ) {
 
   include ::gitolite
@@ -133,7 +136,7 @@ define gitolite::repo (
     if pick($rem['ensure'], 'present') != 'absent' {
       concat::fragment{ "gitolite upgrade-repos.sh: ${title} ${$thename}":
         target  => "${gitolite::userhome}/upgrade-repos.sh",
-        content => "su ${gitolite::user} -c 'git -C ${gitolite::reporoot}/${title}.git fetch ${thename}'\n",
+        content => "su ${gitolite::user} -c 'git -C ${gitolite::reporoot}/${title}.git fetch ${remote_option} ${thename}'\n",
         order   => md5("${title}_${thename}"),
       }
     }
