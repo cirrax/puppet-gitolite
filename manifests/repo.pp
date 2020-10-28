@@ -136,7 +136,7 @@ define gitolite::repo (
     if pick($rem['ensure'], 'present') != 'absent' {
       concat::fragment{ "gitolite upgrade-repos.sh: ${title} ${$thename}":
         target  => "${gitolite::userhome}/upgrade-repos.sh",
-        content => "su ${gitolite::user} -c 'git -C ${gitolite::reporoot}/${title}.git fetch ${remote_option} ${thename}'\n",
+        content => "echo working on: ${title}\nsu ${gitolite::user} -c 'git -C ${gitolite::reporoot}/${title}.git fetch ${remote_option} ${thename}'\n",
         order   => md5("${title}_${thename}"),
       }
     }
