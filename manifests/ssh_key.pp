@@ -22,14 +22,14 @@
 #   containing the key. Defaults to "root"
 #
 class gitolite::ssh_key (
-  String  $filename,
-  String  $type     = 'rsa',
-  Integer $length   = 2048,
-  String  $password = '',
-  String  $comment  = 'undef',
-  String  $user     = 'root',
+  String              $filename,
+  String              $type     = 'rsa',
+  Integer             $length   = 2048,
+  String              $password = '', # lint:ignore:params_empty_string_assignment
+  Optional[String[1]] $comment  = undef,
+  String              $user     = 'root',
 ) {
-  if $comment == 'undef' {
+  if $comment {
     $_comment = "Automatic authentication key for ${user} on ${facts['networking']['fqdn']}"
   } else {
     $_comment = $comment

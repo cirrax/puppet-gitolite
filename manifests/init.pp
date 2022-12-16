@@ -47,7 +47,7 @@
 #  defaults to $::hostname
 # @param local_code
 #  suggested locations for site-local gitolite code
-#  defaults to '', no site-local code
+#  defaults to undef, no site-local code
 # @param additional_gitoliterc
 #  hash of additional lines to add on gitolite.rc file
 #  defaults to empty (beware of "' etc ...)
@@ -63,9 +63,9 @@
 # @param additional_packages
 #  any additional packages you like to install
 # @param admin_key_source
-#  provide a admin key source (default to false)
+#  provide a admin key source (default undef)
 # @param admin_key
-#  admin key (string) (default to false)
+#  admin key (string) (default undef)
 # @param additional_gitoliterc_notrc
 #  hash of additional lines to add on gitolite.rc file
 #  after the rc vars
@@ -77,21 +77,21 @@
 #   defaults to false
 #
 class gitolite (
-  String  $user,
-  String  $userhome,
-  String  $reporoot                    = "${userhome}/repositories",
-  Boolean $user_ensure                 = true,
-  String  $umask                       = '0077',
-  String  $git_config_keys             = '.*',
-  Boolean $log_extra                   = false,
-  Array   $log_dest                    = ['normal'],
-  Array   $roles                       = ['READERS', 'WRITERS'],
-  Boolean $site_info                   = false,
-  String  $gitolite_hostname           = $facts['networking']['hostname'],
-  String  $local_code                  = '',
-  Hash    $additional_gitoliterc       = {},
-  Hash    $additional_gitoliterc_notrc = {},
-  Array   $commands                    = [
+  String               $user,
+  String               $userhome,
+  String               $reporoot                    = "${userhome}/repositories",
+  Boolean              $user_ensure                 = true,
+  String               $umask                       = '0077',
+  String               $git_config_keys             = '.*',
+  Boolean              $log_extra                   = false,
+  Array                $log_dest                    = ['normal'],
+  Array                $roles                       = ['READERS', 'WRITERS'],
+  Boolean              $site_info                   = false,
+  String               $gitolite_hostname           = $facts['networking']['hostname'],
+  Optional[String[1]]  $local_code                  = undef,
+  Hash                 $additional_gitoliterc       = {},
+  Hash                 $additional_gitoliterc_notrc = {},
+  Array                $commands                    = [
     'help',
     'desc',
     'info',
@@ -102,12 +102,12 @@ class gitolite (
     'daemon',
     'gitweb',
   ],
-  String  $package_ensure              = 'present',
-  Array   $packages                    = [],
-  Array   $additional_packages         = [],
-  String  $admin_key_source            = '',
-  String  $admin_key                   = '',
-  Boolean $fetch_cron                  = false,
+  String               $package_ensure              = 'present',
+  Array                $packages                    = [],
+  Array                $additional_packages         = [],
+  Optional[String[1]]  $admin_key_source            = undef,
+  Optional[String[1]]  $admin_key                   = undef,
+  Boolean              $fetch_cron                  = false,
 ) {
   Exec['gitolite_compile'] -> File <| tag == 'gitolite-repo' |>
 
@@ -202,14 +202,14 @@ class gitolite (
   $exec_update = Exec['gitolite_compile', 'gitolite_trigger_post_compile']
 
   # manage initial key, if provided
-  if $admin_key_source != '' {
+  if $admin_key_source {
     file { "${keydir}/admin@init0.pub":
       source => $admin_key_source,
       notify => $exec_update,
     }
   }
 
-  if $admin_key != '' {
+  if $admin_key {
     file { "${keydir}/admin@init1.pub":
       content => $admin_key,
       notify  => $exec_update,

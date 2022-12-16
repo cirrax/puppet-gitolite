@@ -14,7 +14,6 @@ describe 'gitolite' do
       roles: ['READERS', 'WRITERS'],
       site_info: false,
       gitolite_hostname: 'myhostname',
-      local_code: '',
       additional_gitoliterc: {},
       additional_gitoliterc_notrc: {},
       commands: [
@@ -31,8 +30,6 @@ describe 'gitolite' do
       package_ensure: 'present',
       packages: ['gitolite3'],
       additional_packages: [],
-      admin_key_source: '',
-      admin_key: '',
       fetch_cron: false }
   end
 

@@ -25,17 +25,17 @@
 #   defaults to ''
 #
 define gitolite::user (
-  String $user        = $title,
-  Array  $keys        = [],
-  String $key_source  = '',
-  Array  $groups      = [],
-  Variant[Array, String]  $comments    = [],
-  String $order       = '',
+  String                 $user        = $title,
+  Array                  $keys        = [],
+  Optional[String[1]]    $key_source  = undef,
+  Array                  $groups      = [],
+  Variant[Array, String] $comments    = [],
+  String                 $order       = '', # lint:ignore:params_empty_string_assignment
 ) {
   include gitolite
 
   # create the key from source (only one key currently ...)
-  if $key_source != '' {
+  if $key_source {
     file { "${gitolite::userhome}/.puppet_userkeys/${user}":
       source => $key_source,
       notify => Exec['gitolite update user keys from source'],

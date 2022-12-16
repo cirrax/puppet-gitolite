@@ -55,19 +55,19 @@
 #   Defaults to '', example add '-v' for verbose output.
 #
 define gitolite::repo (
-  Array  $repos                     = [$title],
-  Variant[String, Array]  $comments = [],
-  Hash   $rules                     = {},
-  Hash   $options                   = {},
-  Hash   $configs                   = {},
-  Hash   $add_configs               = {},
-  Array  $groups                    = [],
-  String $order                     = '',
-  String $description               = '',
-  Hash   $hooks                     = {},
-  String $group                     = 'root',
-  Hash   $remotes                   = {},
-  String $remote_option             = '',
+  Array                  $repos         = [$title],
+  Variant[String, Array] $comments      = [],
+  Hash                   $rules         = {},
+  Hash                   $options       = {},
+  Hash                   $configs       = {},
+  Hash                   $add_configs   = {},
+  Array                  $groups        = [],
+  String                 $order         = '', # lint:ignore:params_empty_string_assignment
+  Optional[String[1]]    $description   = undef,
+  Hash                   $hooks         = {},
+  String                 $group         = 'root',
+  Hash                   $remotes       = {},
+  String                 $remote_option = '', # lint:ignore:params_empty_string_assignment
 ) {
   include gitolite
 
@@ -86,7 +86,7 @@ define gitolite::repo (
     }
   }
 
-  if $description != '' {
+  if $description {
     file { "${gitolite::reporoot}/${title}.git/description":
       content => $description,
       owner   => $gitolite::user,
@@ -135,7 +135,7 @@ define gitolite::repo (
     if pick($rem['ensure'], 'present') != 'absent' {
       concat::fragment { "gitolite upgrade-repos.sh: ${title} ${$thename}":
         target  => "${gitolite::userhome}/upgrade-repos.sh",
-        content => "echo working on: ${title}\nsu ${gitolite::user} -c 'git -C ${gitolite::reporoot}/${title}.git fetch ${remote_option} ${thename}'\n",
+        content => "echo working on: ${title}\nsu ${gitolite::user} -c 'git -C ${gitolite::reporoot}/${title}.git fetch ${remote_option} ${thename}'\n", # lint:ignore:140chars
         order   => md5("${title}_${thename}"),
       }
     }

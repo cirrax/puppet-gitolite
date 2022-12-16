@@ -13,7 +13,6 @@ describe 'gitolite::repo' do
       add_configs: {},
       groups: [],
       order: '',
-      description: '',
       hooks: {},
       group: 'root',
       remotes: {} }

@@ -6,8 +6,6 @@ describe 'gitolite::ssh_key' do
     { filename: '/tmp/ssh_key',
       type: 'rsa',
       length: 2048,
-      password: '',
-      comment: 'undef',
       user: 'root' }
   end
 
