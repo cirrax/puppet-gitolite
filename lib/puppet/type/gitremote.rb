@@ -18,7 +18,7 @@ Puppet::Type.newtype(:gitremote) do
   end
 
   newparam(:confowner) do
-    desc 'the the owner of the config file'
+    desc 'the the owner of the config file and the user thar will run the git commands'
   end
 
   newproperty(:url) do
