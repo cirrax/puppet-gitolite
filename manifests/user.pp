@@ -31,33 +31,31 @@ define gitolite::user (
   Array  $groups      = [],
   Variant[Array, String]  $comments    = [],
   String $order       = '',
-){
-
-  include ::gitolite
+) {
+  include gitolite
 
   # create the key from source (only one key currently ...)
   if $key_source != '' {
-    file { "${::gitolite::userhome}/.puppet_userkeys/${user}":
+    file { "${gitolite::userhome}/.puppet_userkeys/${user}":
       source => $key_source,
-      notify => Exec['gitolite update user keys from source' ],
+      notify => Exec['gitolite update user keys from source'],
     }
   }
 
   # create the keys from the keys array
   $keys.each | $k, $key | {
-    file { "${::gitolite::keydir}/${user}@${k}.pub":
+    file { "${gitolite::keydir}/${user}@${k}.pub":
       content => $key,
-      notify  => $::gitolite::exec_update,
+      notify  => $gitolite::exec_update,
     }
   }
 
   if $groups != [] {
     $members = $user
     concat::fragment { "gitolite_conffile groups (user) ${title}":
-      target  => $::gitolite::conffile,
+      target  => $gitolite::conffile,
       content => template('gitolite/groups.erb'),
       order   => "40${order}",
     }
   }
-
 }

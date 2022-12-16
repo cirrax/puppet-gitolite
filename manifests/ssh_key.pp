@@ -21,7 +21,7 @@
 #   User who uses this key. This user must have write access to the directory
 #   containing the key. Defaults to "root"
 #
-class gitolite::ssh_key(
+class gitolite::ssh_key (
   String  $filename,
   String  $type     = 'rsa',
   Integer $length   = 2048,
@@ -29,14 +29,13 @@ class gitolite::ssh_key(
   String  $comment  = 'undef',
   String  $user     = 'root',
 ) {
-
   if $comment == 'undef' {
-    $_comment = "Automatic authentication key for ${user} on ${::fqdn}"
+    $_comment = "Automatic authentication key for ${user} on ${facts['networking']['fqdn']}"
   } else {
     $_comment = $comment
   }
 
-  exec {'key for gitolite':
+  exec { 'key for gitolite':
     path    => ['/usr/bin', '/usr/sbin', '/bin'],
     command => "ssh-keygen -t ${type} -b ${length} -C \"${_comment}\" -f ${filename} -q -N \"${password}\"",
     user    => $user,

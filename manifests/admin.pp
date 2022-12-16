@@ -25,10 +25,9 @@ class gitolite::admin (
   Hash    $users             = {},
   Boolean $add_testing_repo  = true,
 ) inherits gitolite {
-
-  concat { $::gitolite::conffile:
+  concat { $gitolite::conffile:
     ensure => present,
-    notify => $::gitolite::exec_update,
+    notify => $gitolite::exec_update,
   }
 
   $h = '#####################'
@@ -50,11 +49,11 @@ class gitolite::admin (
       'order'   => '80',
     },
   }
-  ensure_resources('concat::fragment', $default_fragments, {'target' => $::gitolite::conffile })
+  ensure_resources('concat::fragment', $default_fragments, { 'target' => $gitolite::conffile })
 
   # manage the keydir: 
 
-  file{ "${::gitolite::userhome}/.puppet_userkeys":
+  file { "${gitolite::userhome}/.puppet_userkeys":
     ensure  => directory,
     force   => true,
     recurse => true,
@@ -62,30 +61,30 @@ class gitolite::admin (
     notify  => Exec['gitolite update user keys from source'],
   }
 
-  $gh=$::gitolite::userhome
-  exec{'gitolite update user keys from source':
+  $gh=$gitolite::userhome
+  exec { 'gitolite update user keys from source':
     command     => "/bin/true ;
 rm -rf ${gh}/.puppet_userkeys2 ;
 find ${gh}/.puppet_userkeys -type d|sed 's|/\\.puppet_userkeys|/.puppet_userkeys2|'|xargs mkdir ;
 (cd ${gh}/.puppet_userkeys; find -type f -exec split -l 1 -a 3 -d --additional-suffix=.pub {} ../.puppet_userkeys2/{}@ \\; ) ;
 ",
     refreshonly => true,
-    before      => File[ $gitolite::keydir ],
-    require     => File[ "${::gitolite::userhome}/.puppet_userkeys" ],
+    before      => File[$gitolite::keydir],
+    require     => File["${gitolite::userhome}/.puppet_userkeys"],
   }
 
-  file{ $::gitolite::keydir:
+  file { $gitolite::keydir:
     ensure  => directory,
     force   => true,
     recurse => true,
     purge   => true,
-    source  => "${::gitolite::userhome}/.puppet_userkeys2",
-    notify  => $::gitolite::exec_update,
+    source  => "${gitolite::userhome}/.puppet_userkeys2",
+    notify  => $gitolite::exec_update,
   }
 
   # remove the admin repo since it is not used:
   if $remove_admin_repo {
-    file {"${gitolite::reporoot}/gitolite-admin.git":
+    file { "${gitolite::reporoot}/gitolite-admin.git":
       ensure => absent,
       force  => true,
       backup => false, # if you used it, you have this localy available, otherwise  it's the default !
@@ -94,7 +93,7 @@ find ${gh}/.puppet_userkeys -type d|sed 's|/\\.puppet_userkeys|/.puppet_userkeys
 
   # add testing repo
   if $add_testing_repo {
-    gitolite::repo{'testing':
+    gitolite::repo { 'testing':
       rules    => { 'RW+' => '@all' },
       comments => ['default for testing repo'],
     }

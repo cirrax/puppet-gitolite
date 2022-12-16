@@ -87,7 +87,7 @@ class gitolite (
   Array   $log_dest                    = ['normal'],
   Array   $roles                       = ['READERS', 'WRITERS'],
   Boolean $site_info                   = false,
-  String  $gitolite_hostname           = $::hostname,
+  String  $gitolite_hostname           = $facts['networking']['hostname'],
   String  $local_code                  = '',
   Hash    $additional_gitoliterc       = {},
   Hash    $additional_gitoliterc_notrc = {},
@@ -109,19 +109,18 @@ class gitolite (
   String  $admin_key                   = '',
   Boolean $fetch_cron                  = false,
 ) {
-
   Exec['gitolite_compile'] -> File <| tag == 'gitolite-repo' |>
 
-  ensure_packages($::gitolite::additional_packages)
+  ensure_packages($gitolite::additional_packages)
 
-  package{ $packages :
-    ensure => $::gitolite::package_ensure,
+  package { $packages :
+    ensure => $gitolite::package_ensure,
     tag    => 'gitolite',
   }
 
   #contain ::gitolite::setup
   if $user_ensure {
-    user{$user:
+    user { $user:
       ensure     => present,
       comment    => 'gitolite user',
       home       => $userhome,
@@ -138,7 +137,7 @@ class gitolite (
       require => User[$user],
     }
 
-    class{'::gitolite::ssh_key':
+    class { 'gitolite::ssh_key':
       filename => "${userhome}/.ssh/id_ed25519",
       type     => 'ed25519',
       user     => $user,
@@ -150,31 +149,31 @@ class gitolite (
     path    => ['/usr/bin', '/usr/sbin', '/bin'],
   }
 
-  exec{'gitolite_setup':
+  exec { 'gitolite_setup':
     command => "su ${gitolite::user} -c 'gitolite setup -a dummy; mkdir ~/.gitolite/keydir'",
     unless  => "test -d ~${user}/.gitolite",
     creates => "${userhome}/.gitolite",
     require => Package[$packages],
   }
 
-  -> exec{'gitolite_compile':
+  -> exec { 'gitolite_compile':
     command     => "su ${gitolite::user} -c 'gitolite compile'",
     refreshonly => true,
   }
 
-  -> exec{'gitolite_trigger_post_compile':
+  -> exec { 'gitolite_trigger_post_compile':
     command     => "su ${gitolite::user} -c 'gitolite trigger POST_COMPILE'",
     refreshonly => true,
   }
 
   if "${userhome}/repositories" != $reporoot {
-    file{ $reporoot:
+    file { $reporoot:
       ensure => directory,
       owner  => $user,
       mode   => '0700',
     }
 
-    -> exec{'gitolite: move repositories':
+    -> exec { 'gitolite: move repositories':
       command => "mv ${userhome}/repositories/* ${reporoot}/; true",
       unless  => [
         "test -h ${userhome}/repositories",  # symplink ?
@@ -182,7 +181,7 @@ class gitolite (
     }
 
     # if linkpath is not a sym
-    -> exec{'gitolite: remove repositories directory':
+    -> exec { 'gitolite: remove repositories directory':
       command => "rmdir ${userhome}/repositories;ln -sf ${reporoot} ${userhome}/repositories",
       unless  => [
         "test -h ${userhome}/repositories",                              # symlink ?
@@ -191,7 +190,7 @@ class gitolite (
     }
   }
 
-  file{"${userhome}/.gitolite.rc":
+  file { "${userhome}/.gitolite.rc":
     content => template('gitolite/gitolite.rc.erb'),
     mode    => '0700',
     owner   => $user,
@@ -217,35 +216,34 @@ class gitolite (
     }
   }
 
-  file{"${userhome}/scripts":
+  file { "${userhome}/scripts":
     ensure => directory,
     mode   => '0755',
     owner  => $user,
   }
 
-  concat{ "${userhome}/upgrade-repos.sh":
+  concat { "${userhome}/upgrade-repos.sh":
     owner => 'root',
     group => 'root',
     mode  => '0700',
   }
 
-  concat::fragment{ "${userhome}/upgrade-repos.sh header":
+  concat::fragment { "${userhome}/upgrade-repos.sh header":
     target  => "${userhome}/upgrade-repos.sh",
     content => "#!/bin/sh\n#managed with puppet (module gitolite)\n\n",
     order   => '00',
   }
 
   if $fetch_cron {
-    cron{'fetch gitolite repos upstream':
+    cron { 'fetch gitolite repos upstream':
       command => "${userhome}/upgrade-repos.sh",
       user    => 'root',
       hour    => fqdn_rand(4, 'gitolite'),
       minute  => fqdn_rand(60, 'gitolite'),
     }
   } else {
-    cron{'fetch gitolite repos upstream':
+    cron { 'fetch gitolite repos upstream':
       ensure => 'absent',
     }
   }
 }
-

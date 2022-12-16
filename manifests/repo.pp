@@ -69,11 +69,10 @@ define gitolite::repo (
   Hash   $remotes                   = {},
   String $remote_option             = '',
 ) {
-
-  include ::gitolite
+  include gitolite
 
   concat::fragment { "gitolite_conffile repo ${title}":
-    target  => $::gitolite::conffile,
+    target  => $gitolite::conffile,
     content => template('gitolite/repo.erb'),
     order   => "90${order}",
   }
@@ -81,7 +80,7 @@ define gitolite::repo (
   if $groups != [] {
     $members = $repos
     concat::fragment { "gitolite_conffile groups (repo) ${title}":
-      target  => $::gitolite::conffile,
+      target  => $gitolite::conffile,
       content => template('gitolite/groups.erb'),
       order   => "60${order}",
     }
@@ -124,7 +123,7 @@ define gitolite::repo (
   }
 
   $remotes.each | $thename, $rem | {
-    gitremote{"remote for ${title} ${thename}":
+    gitremote { "remote for ${title} ${thename}":
       ensure     => pick($rem['ensure'], 'present'),
       remotename => $thename,
       directory  => "${gitolite::reporoot}/${title}.git",
@@ -134,7 +133,7 @@ define gitolite::repo (
     }
 
     if pick($rem['ensure'], 'present') != 'absent' {
-      concat::fragment{ "gitolite upgrade-repos.sh: ${title} ${$thename}":
+      concat::fragment { "gitolite upgrade-repos.sh: ${title} ${$thename}":
         target  => "${gitolite::userhome}/upgrade-repos.sh",
         content => "echo working on: ${title}\nsu ${gitolite::user} -c 'git -C ${gitolite::reporoot}/${title}.git fetch ${remote_option} ${thename}'\n",
         order   => md5("${title}_${thename}"),
