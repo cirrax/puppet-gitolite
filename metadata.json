@@ -27,7 +27,8 @@
       "operatingsystemrelease": [
         "8",
         "9",
-        "10"
+        "10",
+        "11"
       ]
     },
     {
@@ -37,7 +38,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">=4.0.0 < 7.0.0"
+      "version_requirement": ">=4.0.0 < 8.0.0"
     }
   ],
   "tags": [
