@@ -5,7 +5,7 @@ Puppet::Type.type(:gitremote).provide(:ruby) do
   def create
     # initialy add the git remote
     gitopts = { uid: resource[:confowner] }
-    Puppet::Util::Execution.execute(['git', '-C', resource[:directory], 'remote', 'add', resource[:remotename], resource[:url]])
+    Puppet::Util::Execution.execute(['git', '-C', resource[:directory], 'remote', 'add', resource[:remotename], resource[:url]], gitopts)
     # now we need to set the correct fetchers
     begin
       Puppet::Util::Execution.execute(['git', '-C', resource[:directory], 'config', '--unset-all', 'remote.' + resource[:remotename] + '.fetch'], gitopts)
