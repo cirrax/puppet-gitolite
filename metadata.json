@@ -1,6 +1,6 @@
 {
   "name": "cirrax-gitolite",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "author": "Cirrax GmbH",
   "summary": "A module to configure gitolite",
   "license": "GPL-3.0",
