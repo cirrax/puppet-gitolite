@@ -7,16 +7,16 @@
 ### Classes
 
 * [`gitolite`](#gitolite): This class is inherited by setup.pp and admin.pp  It's intention is to have alle the config parameters.  If you only use this class (and the 
-* [`gitolite::admin`](#gitoliteadmin): This class manages the gitolite.conf file and prepares to manage the ssh keys with puppet.  do not use this class if you want to use the gito
-* [`gitolite::client`](#gitoliteclient): Class to install git
-* [`gitolite::ssh_key`](#gitolitessh_key): Generate an SSH authentication key  Key generation for (passwordless) authentication to a remote system.
+* [`gitolite::admin`](#gitolite--admin): This class manages the gitolite.conf file and prepares to manage the ssh keys with puppet.  do not use this class if you want to use the gito
+* [`gitolite::client`](#gitolite--client): Class to install git
+* [`gitolite::ssh_key`](#gitolite--ssh_key): Generate an SSH authentication key  Key generation for (passwordless) authentication to a remote system.
 
 ### Defined types
 
-* [`gitolite::repo`](#gitoliterepo): this resources define a git repository you also can use them to define values for a group of repositories (by using an @ in front of the grou
-* [`gitolite::repos`](#gitoliterepos): this resource defines a group of repos with defaults
-* [`gitolite::user`](#gitoliteuser): this resources defines a git user you also can use it to define values for a group of repositories (by using an @ in front of the group name)
-* [`gitolite::users`](#gitoliteusers): this resource defines a group of users with defaults
+* [`gitolite::repo`](#gitolite--repo): this resources define a git repository you also can use them to define values for a group of repositories (by using an @ in front of the grou
+* [`gitolite::repos`](#gitolite--repos): this resource defines a group of repos with defaults
+* [`gitolite::user`](#gitolite--user): this resources defines a git user you also can use it to define values for a group of repositories (by using an @ in front of the group name)
+* [`gitolite::users`](#gitolite--users): this resource defines a group of users with defaults
 
 ### Resource types
 
@@ -38,29 +38,29 @@ gitolite-admin.git.)
 
 The following parameters are available in the `gitolite` class:
 
-* [`reporoot`](#reporoot)
-* [`user`](#user)
-* [`userhome`](#userhome)
-* [`user_ensure`](#user_ensure)
-* [`umask`](#umask)
-* [`git_config_keys`](#git_config_keys)
-* [`log_extra`](#log_extra)
-* [`log_dest`](#log_dest)
-* [`roles`](#roles)
-* [`site_info`](#site_info)
-* [`gitolite_hostname`](#gitolite_hostname)
-* [`local_code`](#local_code)
-* [`additional_gitoliterc`](#additional_gitoliterc)
-* [`commands`](#commands)
-* [`package_ensure`](#package_ensure)
-* [`packages`](#packages)
-* [`additional_packages`](#additional_packages)
-* [`admin_key_source`](#admin_key_source)
-* [`admin_key`](#admin_key)
-* [`additional_gitoliterc_notrc`](#additional_gitoliterc_notrc)
-* [`fetch_cron`](#fetch_cron)
+* [`reporoot`](#-gitolite--reporoot)
+* [`user`](#-gitolite--user)
+* [`userhome`](#-gitolite--userhome)
+* [`user_ensure`](#-gitolite--user_ensure)
+* [`umask`](#-gitolite--umask)
+* [`git_config_keys`](#-gitolite--git_config_keys)
+* [`log_extra`](#-gitolite--log_extra)
+* [`log_dest`](#-gitolite--log_dest)
+* [`roles`](#-gitolite--roles)
+* [`site_info`](#-gitolite--site_info)
+* [`gitolite_hostname`](#-gitolite--gitolite_hostname)
+* [`local_code`](#-gitolite--local_code)
+* [`additional_gitoliterc`](#-gitolite--additional_gitoliterc)
+* [`commands`](#-gitolite--commands)
+* [`package_ensure`](#-gitolite--package_ensure)
+* [`packages`](#-gitolite--packages)
+* [`additional_packages`](#-gitolite--additional_packages)
+* [`admin_key_source`](#-gitolite--admin_key_source)
+* [`admin_key`](#-gitolite--admin_key)
+* [`additional_gitoliterc_notrc`](#-gitolite--additional_gitoliterc_notrc)
+* [`fetch_cron`](#-gitolite--fetch_cron)
 
-##### <a name="reporoot"></a>`reporoot`
+##### <a name="-gitolite--reporoot"></a>`reporoot`
 
 Data type: `String`
 
@@ -70,20 +70,20 @@ defaults to $userhome
 
 Default value: `"${userhome}/repositories"`
 
-##### <a name="user"></a>`user`
+##### <a name="-gitolite--user"></a>`user`
 
 Data type: `String`
 
 the user to host the git repositories
 this user needs a home directory to work with gitolite.
 
-##### <a name="userhome"></a>`userhome`
+##### <a name="-gitolite--userhome"></a>`userhome`
 
 Data type: `String`
 
 the home directory of the user
 
-##### <a name="user_ensure"></a>`user_ensure`
+##### <a name="-gitolite--user_ensure"></a>`user_ensure`
 
 Data type: `Boolean`
 
@@ -91,9 +91,9 @@ if true, $user will be created, if false, you have
 to create the user with the homedirectory elsewhere.
 defaults to true
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="umask"></a>`umask`
+##### <a name="-gitolite--umask"></a>`umask`
 
 Data type: `String`
 
@@ -102,7 +102,7 @@ defaults to '0077' which gives perms of '0700'
 
 Default value: `'0077'`
 
-##### <a name="git_config_keys"></a>`git_config_keys`
+##### <a name="-gitolite--git_config_keys"></a>`git_config_keys`
 
 Data type: `String`
 
@@ -111,16 +111,16 @@ default: '.*'
 
 Default value: `'.*'`
 
-##### <a name="log_extra"></a>`log_extra`
+##### <a name="-gitolite--log_extra"></a>`log_extra`
 
 Data type: `Boolean`
 
 set to true for extra log details
 default: false
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="log_dest"></a>`log_dest`
+##### <a name="-gitolite--log_dest"></a>`log_dest`
 
 Data type: `Array`
 
@@ -134,7 +134,7 @@ defaults to ['normal']
 
 Default value: `['normal']`
 
-##### <a name="roles"></a>`roles`
+##### <a name="-gitolite--roles"></a>`roles`
 
 Data type: `Array`
 
@@ -143,16 +143,16 @@ default: ['READERS', 'WRITERS']
 
 Default value: `['READERS', 'WRITERS']`
 
-##### <a name="site_info"></a>`site_info`
+##### <a name="-gitolite--site_info"></a>`site_info`
 
 Data type: `Boolean`
 
 the 'info' command prints this as additional info
 default to false
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="gitolite_hostname"></a>`gitolite_hostname`
+##### <a name="-gitolite--gitolite_hostname"></a>`gitolite_hostname`
 
 Data type: `String`
 
@@ -161,16 +161,16 @@ defaults to $::hostname
 
 Default value: `$facts['networking']['hostname']`
 
-##### <a name="local_code"></a>`local_code`
+##### <a name="-gitolite--local_code"></a>`local_code`
 
 Data type: `Optional[String[1]]`
 
 suggested locations for site-local gitolite code
 defaults to undef, no site-local code
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="additional_gitoliterc"></a>`additional_gitoliterc`
+##### <a name="-gitolite--additional_gitoliterc"></a>`additional_gitoliterc`
 
 Data type: `Hash`
 
@@ -181,14 +181,17 @@ example:
 
 Default value: `{}`
 
-##### <a name="commands"></a>`commands`
+##### <a name="-gitolite--commands"></a>`commands`
 
 Data type: `Array`
 
 Array of commands and features to enable
 defaults to ['help', 'desc', 'info', 'perms' ]
 
-Default value: `[
+Default value:
+
+```puppet
+[
     'help',
     'desc',
     'info',
@@ -198,9 +201,10 @@ Default value: `[
     'git-config',
     'daemon',
     'gitweb',
-  ]`
+  ]
+```
 
-##### <a name="package_ensure"></a>`package_ensure`
+##### <a name="-gitolite--package_ensure"></a>`package_ensure`
 
 Data type: `String`
 
@@ -208,7 +212,7 @@ howto ensure the packages to install
 
 Default value: `'present'`
 
-##### <a name="packages"></a>`packages`
+##### <a name="-gitolite--packages"></a>`packages`
 
 Data type: `Array`
 
@@ -216,7 +220,7 @@ packages to install for gitolite
 
 Default value: `[]`
 
-##### <a name="additional_packages"></a>`additional_packages`
+##### <a name="-gitolite--additional_packages"></a>`additional_packages`
 
 Data type: `Array`
 
@@ -224,23 +228,23 @@ any additional packages you like to install
 
 Default value: `[]`
 
-##### <a name="admin_key_source"></a>`admin_key_source`
+##### <a name="-gitolite--admin_key_source"></a>`admin_key_source`
 
 Data type: `Optional[String[1]]`
 
 provide a admin key source (default undef)
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="admin_key"></a>`admin_key`
+##### <a name="-gitolite--admin_key"></a>`admin_key`
 
 Data type: `Optional[String[1]]`
 
 admin key (string) (default undef)
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="additional_gitoliterc_notrc"></a>`additional_gitoliterc_notrc`
+##### <a name="-gitolite--additional_gitoliterc_notrc"></a>`additional_gitoliterc_notrc`
 
 Data type: `Hash`
 
@@ -252,16 +256,16 @@ example:
 
 Default value: `{}`
 
-##### <a name="fetch_cron"></a>`fetch_cron`
+##### <a name="-gitolite--fetch_cron"></a>`fetch_cron`
 
 Data type: `Boolean`
 
 if a cronjob should be established to fetch from remote repos
 defaults to false
 
-Default value: ``false``
+Default value: `false`
 
-### <a name="gitoliteadmin"></a>`gitolite::admin`
+### <a name="gitolite--admin"></a>`gitolite::admin`
 
 This class manages the gitolite.conf file
 and prepares to manage the ssh keys with puppet.
@@ -276,21 +280,21 @@ will get you back)
 
 The following parameters are available in the `gitolite::admin` class:
 
-* [`remove_admin_repo`](#remove_admin_repo)
-* [`repos`](#repos)
-* [`users`](#users)
-* [`add_testing_repo`](#add_testing_repo)
+* [`remove_admin_repo`](#-gitolite--admin--remove_admin_repo)
+* [`repos`](#-gitolite--admin--repos)
+* [`users`](#-gitolite--admin--users)
+* [`add_testing_repo`](#-gitolite--admin--add_testing_repo)
 
-##### <a name="remove_admin_repo"></a>`remove_admin_repo`
+##### <a name="-gitolite--admin--remove_admin_repo"></a>`remove_admin_repo`
 
 Data type: `Boolean`
 
 if true (the default) the repository
 gitoline_admin.git will be removed
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="repos"></a>`repos`
+##### <a name="-gitolite--admin--repos"></a>`repos`
 
 Data type: `Hash`
 
@@ -298,7 +302,7 @@ a hash of repos, to be defined
 
 Default value: `{}`
 
-##### <a name="users"></a>`users`
+##### <a name="-gitolite--admin--users"></a>`users`
 
 Data type: `Hash`
 
@@ -306,20 +310,20 @@ a hash of users, to be defined
 
 Default value: `{}`
 
-##### <a name="add_testing_repo"></a>`add_testing_repo`
+##### <a name="-gitolite--admin--add_testing_repo"></a>`add_testing_repo`
 
 Data type: `Boolean`
 
 allow RW+ for all users to the testing repo
 default: true
 
-Default value: ``true``
+Default value: `true`
 
-### <a name="gitoliteclient"></a>`gitolite::client`
+### <a name="gitolite--client"></a>`gitolite::client`
 
 Class to install git
 
-### <a name="gitolitessh_key"></a>`gitolite::ssh_key`
+### <a name="gitolite--ssh_key"></a>`gitolite::ssh_key`
 
 Generate an SSH authentication key
 
@@ -330,20 +334,20 @@ remote system.
 
 The following parameters are available in the `gitolite::ssh_key` class:
 
-* [`filename`](#filename)
-* [`type`](#type)
-* [`length`](#length)
-* [`password`](#password)
-* [`comment`](#comment)
-* [`user`](#user)
+* [`filename`](#-gitolite--ssh_key--filename)
+* [`type`](#-gitolite--ssh_key--type)
+* [`length`](#-gitolite--ssh_key--length)
+* [`password`](#-gitolite--ssh_key--password)
+* [`comment`](#-gitolite--ssh_key--comment)
+* [`user`](#-gitolite--ssh_key--user)
 
-##### <a name="filename"></a>`filename`
+##### <a name="-gitolite--ssh_key--filename"></a>`filename`
 
 Data type: `String`
 
 Filename (full path) for the key. Required.
 
-##### <a name="type"></a>`type`
+##### <a name="-gitolite--ssh_key--type"></a>`type`
 
 Data type: `String`
 
@@ -351,7 +355,7 @@ Type of key, either dsa, ecdsa or rsa. Defaults to rsa.
 
 Default value: `'rsa'`
 
-##### <a name="length"></a>`length`
+##### <a name="-gitolite--ssh_key--length"></a>`length`
 
 Data type: `Integer`
 
@@ -360,7 +364,7 @@ regarding non RSA keys.
 
 Default value: `2048`
 
-##### <a name="password"></a>`password`
+##### <a name="-gitolite--ssh_key--password"></a>`password`
 
 Data type: `String`
 
@@ -370,15 +374,15 @@ process parameters when creating the key.
 
 Default value: `''`
 
-##### <a name="comment"></a>`comment`
+##### <a name="-gitolite--ssh_key--comment"></a>`comment`
 
 Data type: `Optional[String[1]]`
 
 Comment describing the Key. Defaults to "Automatic authentication key for $user on $fqdn".
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="user"></a>`user`
+##### <a name="-gitolite--ssh_key--user"></a>`user`
 
 Data type: `String`
 
@@ -389,7 +393,7 @@ Default value: `'root'`
 
 ## Defined types
 
-### <a name="gitoliterepo"></a>`gitolite::repo`
+### <a name="gitolite--repo"></a>`gitolite::repo`
 
 this resources define a git repository
 you also can use them to define values for a group of
@@ -399,21 +403,21 @@ repositories (by using an @ in front of the group name)
 
 The following parameters are available in the `gitolite::repo` defined type:
 
-* [`repos`](#repos)
-* [`comments`](#comments)
-* [`rules`](#rules)
-* [`options`](#options)
-* [`configs`](#configs)
-* [`add_configs`](#add_configs)
-* [`groups`](#groups)
-* [`order`](#order)
-* [`description`](#description)
-* [`hooks`](#hooks)
-* [`group`](#group)
-* [`remotes`](#remotes)
-* [`remote_option`](#remote_option)
+* [`repos`](#-gitolite--repo--repos)
+* [`comments`](#-gitolite--repo--comments)
+* [`rules`](#-gitolite--repo--rules)
+* [`options`](#-gitolite--repo--options)
+* [`configs`](#-gitolite--repo--configs)
+* [`add_configs`](#-gitolite--repo--add_configs)
+* [`groups`](#-gitolite--repo--groups)
+* [`order`](#-gitolite--repo--order)
+* [`description`](#-gitolite--repo--description)
+* [`hooks`](#-gitolite--repo--hooks)
+* [`group`](#-gitolite--repo--group)
+* [`remotes`](#-gitolite--repo--remotes)
+* [`remote_option`](#-gitolite--repo--remote_option)
 
-##### <a name="repos"></a>`repos`
+##### <a name="-gitolite--repo--repos"></a>`repos`
 
 Data type: `Array`
 
@@ -422,7 +426,7 @@ defaults to [ $title ]
 
 Default value: `[$title]`
 
-##### <a name="comments"></a>`comments`
+##### <a name="-gitolite--repo--comments"></a>`comments`
 
 Data type: `Variant[String, Array]`
 
@@ -430,7 +434,7 @@ an array of comments to add defaults to []
 
 Default value: `[]`
 
-##### <a name="rules"></a>`rules`
+##### <a name="-gitolite--repo--rules"></a>`rules`
 
 Data type: `Hash`
 
@@ -442,7 +446,7 @@ a hash of permissions:
 
 Default value: `{}`
 
-##### <a name="options"></a>`options`
+##### <a name="-gitolite--repo--options"></a>`options`
 
 Data type: `Hash`
 
@@ -450,7 +454,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### <a name="configs"></a>`configs`
+##### <a name="-gitolite--repo--configs"></a>`configs`
 
 Data type: `Hash`
 
@@ -458,7 +462,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### <a name="add_configs"></a>`add_configs`
+##### <a name="-gitolite--repo--add_configs"></a>`add_configs`
 
 Data type: `Hash`
 
@@ -466,7 +470,7 @@ additional configs, merged with configs
 
 Default value: `{}`
 
-##### <a name="groups"></a>`groups`
+##### <a name="-gitolite--repo--groups"></a>`groups`
 
 Data type: `Array`
 
@@ -476,7 +480,7 @@ the group names can be prefixed with an @ sign
 
 Default value: `[]`
 
-##### <a name="order"></a>`order`
+##### <a name="-gitolite--repo--order"></a>`order`
 
 Data type: `String`
 
@@ -487,15 +491,15 @@ defaults to ''
 
 Default value: `''`
 
-##### <a name="description"></a>`description`
+##### <a name="-gitolite--repo--description"></a>`description`
 
 Data type: `Optional[String[1]]`
 
 a description to add to the repo
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="hooks"></a>`hooks`
+##### <a name="-gitolite--repo--hooks"></a>`hooks`
 
 Data type: `Hash`
 
@@ -503,7 +507,7 @@ hooks to install
 
 Default value: `{}`
 
-##### <a name="group"></a>`group`
+##### <a name="-gitolite--repo--group"></a>`group`
 
 Data type: `String`
 
@@ -511,7 +515,7 @@ Data type: `String`
 
 Default value: `'root'`
 
-##### <a name="remotes"></a>`remotes`
+##### <a name="-gitolite--repo--remotes"></a>`remotes`
 
 Data type: `Hash`
 
@@ -535,7 +539,7 @@ to ensure that no conflicts occur !
 
 Default value: `{}`
 
-##### <a name="remote_option"></a>`remote_option`
+##### <a name="-gitolite--repo--remote_option"></a>`remote_option`
 
 Data type: `String`
 
@@ -544,7 +548,7 @@ Defaults to '', example add '-v' for verbose output.
 
 Default value: `''`
 
-### <a name="gitoliterepos"></a>`gitolite::repos`
+### <a name="gitolite--repos"></a>`gitolite::repos`
 
 this resource defines a group of repos with defaults
 
@@ -552,10 +556,10 @@ this resource defines a group of repos with defaults
 
 The following parameters are available in the `gitolite::repos` defined type:
 
-* [`defaults`](#defaults)
-* [`repos`](#repos)
+* [`defaults`](#-gitolite--repos--defaults)
+* [`repos`](#-gitolite--repos--repos)
 
-##### <a name="defaults"></a>`defaults`
+##### <a name="-gitolite--repos--defaults"></a>`defaults`
 
 Data type: `Hash`
 
@@ -563,7 +567,7 @@ defaults for all generated repos
 
 Default value: `{}`
 
-##### <a name="repos"></a>`repos`
+##### <a name="-gitolite--repos--repos"></a>`repos`
 
 Data type: `Hash`
 
@@ -571,7 +575,7 @@ repos to create see gitolite::repo for parameters
 
 Default value: `{}`
 
-### <a name="gitoliteuser"></a>`gitolite::user`
+### <a name="gitolite--user"></a>`gitolite::user`
 
 this resources defines a git user
 you also can use it to define values for a group of
@@ -581,14 +585,14 @@ repositories (by using an @ in front of the group name)
 
 The following parameters are available in the `gitolite::user` defined type:
 
-* [`user`](#user)
-* [`keys`](#keys)
-* [`key_source`](#key_source)
-* [`comments`](#comments)
-* [`groups`](#groups)
-* [`order`](#order)
+* [`user`](#-gitolite--user--user)
+* [`keys`](#-gitolite--user--keys)
+* [`key_source`](#-gitolite--user--key_source)
+* [`comments`](#-gitolite--user--comments)
+* [`groups`](#-gitolite--user--groups)
+* [`order`](#-gitolite--user--order)
 
-##### <a name="user"></a>`user`
+##### <a name="-gitolite--user--user"></a>`user`
 
 Data type: `String`
 
@@ -597,7 +601,7 @@ defaults to $title
 
 Default value: `$title`
 
-##### <a name="keys"></a>`keys`
+##### <a name="-gitolite--user--keys"></a>`keys`
 
 Data type: `Array`
 
@@ -605,15 +609,15 @@ array of users ssh keys
 
 Default value: `[]`
 
-##### <a name="key_source"></a>`key_source`
+##### <a name="-gitolite--user--key_source"></a>`key_source`
 
 Data type: `Optional[String[1]]`
 
 a puppet source to fetch key from
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="comments"></a>`comments`
+##### <a name="-gitolite--user--comments"></a>`comments`
 
 Data type: `Variant[Array, String]`
 
@@ -622,7 +626,7 @@ defaults to []
 
 Default value: `[]`
 
-##### <a name="groups"></a>`groups`
+##### <a name="-gitolite--user--groups"></a>`groups`
 
 Data type: `Array`
 
@@ -633,7 +637,7 @@ defaults to []
 
 Default value: `[]`
 
-##### <a name="order"></a>`order`
+##### <a name="-gitolite--user--order"></a>`order`
 
 Data type: `String`
 
@@ -644,7 +648,7 @@ defaults to ''
 
 Default value: `''`
 
-### <a name="gitoliteusers"></a>`gitolite::users`
+### <a name="gitolite--users"></a>`gitolite::users`
 
 this resource defines a group of users with defaults
 
@@ -652,10 +656,10 @@ this resource defines a group of users with defaults
 
 The following parameters are available in the `gitolite::users` defined type:
 
-* [`defaults`](#defaults)
-* [`users`](#users)
+* [`defaults`](#-gitolite--users--defaults)
+* [`users`](#-gitolite--users--users)
 
-##### <a name="defaults"></a>`defaults`
+##### <a name="-gitolite--users--defaults"></a>`defaults`
 
 Data type: `Hash`
 
@@ -663,7 +667,7 @@ defaults for all generated users
 
 Default value: `{}`
 
-##### <a name="users"></a>`users`
+##### <a name="-gitolite--users--users"></a>`users`
 
 Data type: `Hash`
 
@@ -701,32 +705,32 @@ the url of the remote repository
 
 The following parameters are available in the `gitremote` type.
 
-* [`confowner`](#confowner)
-* [`directory`](#directory)
-* [`name`](#name)
-* [`provider`](#provider)
-* [`remotename`](#remotename)
+* [`confowner`](#-gitremote--confowner)
+* [`directory`](#-gitremote--directory)
+* [`name`](#-gitremote--name)
+* [`provider`](#-gitremote--provider)
+* [`remotename`](#-gitremote--remotename)
 
-##### <a name="confowner"></a>`confowner`
+##### <a name="-gitremote--confowner"></a>`confowner`
 
 the the owner of the config file and the user thar will run the git commands
 
-##### <a name="directory"></a>`directory`
+##### <a name="-gitremote--directory"></a>`directory`
 
 the the directory the repository is
 
-##### <a name="name"></a>`name`
+##### <a name="-gitremote--name"></a>`name`
 
 namevar
 
 the title
 
-##### <a name="provider"></a>`provider`
+##### <a name="-gitremote--provider"></a>`provider`
 
 The specific backend to use for this `gitremote` resource. You will seldom need to specify this --- Puppet will usually
 discover the appropriate provider for your platform.
 
-##### <a name="remotename"></a>`remotename`
+##### <a name="-gitremote--remotename"></a>`remotename`
 
 the name of the remote to create
 
