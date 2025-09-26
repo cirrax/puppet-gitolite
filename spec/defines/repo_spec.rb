@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 require 'spec_helper'
 
@@ -26,12 +27,12 @@ describe 'gitolite::repo' do
     it { is_expected.to contain_class('gitolite') }
 
     it {
-      is_expected.to contain_concat__fragment('gitolite_conffile repo ' + title)
-        .with_order('90' + params[:order])
+      is_expected.to contain_concat__fragment("gitolite_conffile repo #{title}")
+        .with_order("90#{params[:order]}")
     }
 
     it {
-      is_expected.to contain_file('/tmp/gitolite/repositories/' + title + '.git/hooks')
+      is_expected.to contain_file("/tmp/gitolite/repositories/#{title}.git/hooks")
         .with_ensure('directory')
         .with_mode('0700')
         .with_purge(true)
@@ -39,12 +40,13 @@ describe 'gitolite::repo' do
     }
 
     it {
-      is_expected.to contain_file('/tmp/gitolite/repositories/' + title + '.git/hooks/update')
+      is_expected.to contain_file("/tmp/gitolite/repositories/#{title}.git/hooks/update")
         .with_ensure('link')
         .with_owner('gitolite')
         .with_group(params[:group])
     }
   end
+
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }
@@ -67,7 +69,7 @@ describe 'gitolite::repo' do
         it_behaves_like 'gitolite::repo define'
 
         it {
-          is_expected.to contain_file('/tmp/gitolite/repositories/' + title + '.git/description')
+          is_expected.to contain_file("/tmp/gitolite/repositories/#{title}.git/description")
             .with_content('my description')
             .with_group('root')
             .with_owner('gitolite')
@@ -83,8 +85,8 @@ describe 'gitolite::repo' do
         it_behaves_like 'gitolite::repo define'
 
         it {
-          is_expected.to contain_concat__fragment('gitolite_conffile groups (repo) ' + title)
-            .with_order('60' + params[:order])
+          is_expected.to contain_concat__fragment("gitolite_conffile groups (repo) #{title}")
+            .with_order("60#{params[:order]}")
         }
       end
 
@@ -97,7 +99,7 @@ describe 'gitolite::repo' do
         it_behaves_like 'gitolite::repo define'
 
         it {
-          is_expected.to contain_file('/tmp/gitolite/repositories/' + title + '.git/hooks/hook1')
+          is_expected.to contain_file("/tmp/gitolite/repositories/#{title}.git/hooks/hook1")
             .with_ensure('link')
             .with_owner('gitolite')
             .with_group('root')
@@ -113,28 +115,28 @@ describe 'gitolite::repo' do
         it_behaves_like 'gitolite::repo define'
 
         it {
-          is_expected.to contain_gitremote('remote for ' + title + ' upstream')
+          is_expected.to contain_gitremote("remote for #{title} upstream")
             .with_ensure('present')
             .with_remotename('upstream')
-            .with_directory('/tmp/gitolite/repositories/' + title + '.git')
+            .with_directory("/tmp/gitolite/repositories/#{title}.git")
             .with_confowner('gitolite')
             .with_url('http://blah')
         }
 
         it {
-          is_expected.to contain_gitremote('remote for ' + title + ' noup')
+          is_expected.to contain_gitremote("remote for #{title} noup")
             .with_ensure('absent')
             .with_remotename('noup')
-            .with_directory('/tmp/gitolite/repositories/' + title + '.git')
+            .with_directory("/tmp/gitolite/repositories/#{title}.git")
             .with_confowner('gitolite')
         }
 
         it {
-          is_expected.to contain_concat__fragment('gitolite upgrade-repos.sh: ' + title + ' upstream')
+          is_expected.to contain_concat__fragment("gitolite upgrade-repos.sh: #{title} upstream")
         }
 
         it {
-          is_expected.not_to contain_concat__fragment('gitolite upgrade-repos.sh: ' + title + ' noup')
+          is_expected.not_to contain_concat__fragment("gitolite upgrade-repos.sh: #{title} noup")
         }
       end
     end

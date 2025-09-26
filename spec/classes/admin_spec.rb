@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 require 'spec_helper'
 
@@ -23,14 +24,17 @@ describe 'gitolite::admin' do
       is_expected.to contain_concat__fragment('gitolite_conf_main_header')
         .with_order('00')
     }
+
     it {
       is_expected.to contain_concat__fragment('gitolite_conf_user_group_header')
         .with_order('30')
     }
+
     it {
       is_expected.to contain_concat__fragment('gitolite_conf_repo_group_header')
         .with_order('50')
     }
+
     it {
       is_expected.to contain_concat__fragment('gitolite_conf_repo_header')
         .with_order('80')
@@ -53,6 +57,7 @@ describe 'gitolite::admin' do
         .with_require('File[/tmp/gitolite/.puppet_userkeys]')
     }
   end
+
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }

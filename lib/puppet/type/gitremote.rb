@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 Puppet::Type.newtype(:gitremote) do
   @doc = 'add a remote to a git repository'

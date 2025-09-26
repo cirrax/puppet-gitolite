@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 require 'spec_helper'
 
@@ -20,6 +21,7 @@ describe 'gitolite::ssh_key' do
         .with_command(%r{^ssh-keygen -t})
     }
   end
+
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }
@@ -40,7 +42,7 @@ describe 'gitolite::ssh_key' do
             length: 4000,
             password: 'password',
             comment: 'somecomment',
-            user: 'gitolite',
+            user: 'gitolite'
           )
         end
 
