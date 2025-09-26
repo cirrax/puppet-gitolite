@@ -1,10 +1,5 @@
 # gitolite puppet module
 
-[![Build Status](https://travis-ci.org/cirrax/puppet-gitolite.svg?branch=master)](https://travis-ci.org/cirrax/puppet-gitolite)
-[![Puppet Forge](https://img.shields.io/puppetforge/v/cirrax/gitolite.svg?style=flat-square)](https://forge.puppetlabs.com/cirrax/gitolite)
-[![Puppet Forge](https://img.shields.io/puppetforge/dt/cirrax/gitolite.svg?style=flat-square)](https://forge.puppet.com/cirrax/gitolite)
-[![Puppet Forge](https://img.shields.io/puppetforge/e/cirrax/gitolite.svg?style=flat-square)](https://forge.puppet.com/cirrax/gitolite)
-[![Puppet Forge](https://img.shields.io/puppetforge/f/cirrax/gitolite.svg?style=flat-square)](https://forge.puppet.com/cirrax/gitolite)
 
 #### Table of Contents
 

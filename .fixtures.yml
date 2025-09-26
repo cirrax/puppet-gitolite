@@ -4,5 +4,3 @@ fixtures:
     concat: puppetlabs/concat
     stdlib: puppetlabs/stdlib
     cron_core: puppetlabs/cron_core
-  symlinks:
-    "gitolite": "#{source_dir}"

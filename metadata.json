@@ -38,15 +38,12 @@
   ],
   "requirements": [
     {
-      "name": "puppet",
+      "name": "openvox",
       "version_requirement": ">=4.0.0 < 9.0.0"
     }
   ],
   "tags": [
     "gitolite",
     "git"
-  ],
-  "pdk-version": "3.4.0",
-  "template-url": "https://github.com/puppetlabs/pdk-templates#main",
-  "template-ref": "tags/3.4.0-0-gd3cc13f"
+  ]
 }
