@@ -121,7 +121,7 @@ describe 'gitolite' do
     }
   end
 
-  on_supported_os.each do |_os, _os_facts|
+  on_supported_os.each do |os, _os_facts|
     context "on #{os}, with defaults" do
       let :params do
         default_params
