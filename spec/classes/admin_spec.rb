@@ -9,7 +9,7 @@ describe 'gitolite::admin' do
     { remove_admin_repo: true,
       repos: {},
       users: {},
-      add_testing_repo: true }
+      add_testing_repo: true, }
   end
 
   shared_examples 'gitolite::admin shared examples' do

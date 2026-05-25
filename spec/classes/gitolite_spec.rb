@@ -31,7 +31,7 @@ describe 'gitolite' do
       package_ensure: 'present',
       packages: ['gitolite3'],
       additional_packages: [],
-      fetch_cron: false }
+      fetch_cron: false, }
   end
 
   shared_examples 'gitolite shared examples' do
@@ -121,7 +121,7 @@ describe 'gitolite' do
     }
   end
 
-  on_supported_os.each do |os, _os_facts|
+  on_supported_os.each_key do |os|
     context "on #{os}, with defaults" do
       let :params do
         default_params

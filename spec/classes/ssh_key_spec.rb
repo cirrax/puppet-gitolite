@@ -7,7 +7,7 @@ describe 'gitolite::ssh_key' do
     { filename: '/tmp/ssh_key',
       type: 'rsa',
       length: 2048,
-      user: 'root' }
+      user: 'root', }
   end
 
   shared_examples 'gitolite::ssh_key shared examples' do
@@ -42,7 +42,7 @@ describe 'gitolite::ssh_key' do
             length: 4000,
             password: 'password',
             comment: 'somecomment',
-            user: 'gitolite'
+            user: 'gitolite',
           )
         end
 
