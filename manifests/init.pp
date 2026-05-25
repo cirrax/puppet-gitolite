@@ -146,14 +146,16 @@ class gitolite (
   }
 
   Exec {
-    path    => ['/usr/bin', '/usr/sbin', '/bin'],
+    path    => ['/usr/bin', '/usr/sbin', '/bin', '/usr/local/bin'],
   }
 
   exec { 'gitolite_setup':
-    command => "su ${gitolite::user} -c 'gitolite setup -a dummy; mkdir ~/.gitolite/keydir'",
-    unless  => "test -d ~${user}/.gitolite",
-    creates => "${userhome}/.gitolite",
-    require => Package[$packages],
+    command     => "gitolite setup -a admin; mkdir ~/.gitolite/keydir",
+    user        =>  "${gitolite::user}",
+    environment => [ "HOME=${userhome}" ],
+    unless      => "test -d ~${user}/.gitolite",
+    creates     => "${userhome}/.gitolite",
+    require     => Package[$packages],
   }
 
   -> exec { 'gitolite_compile':
@@ -224,7 +226,7 @@ class gitolite (
 
   concat { "${userhome}/upgrade-repos.sh":
     owner => 'root',
-    group => 'root',
+    group => '0',
     mode  => '0700',
   }
 
