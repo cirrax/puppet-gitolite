@@ -16,7 +16,7 @@ describe 'gitolite::repo' do
       order: '',
       hooks: {},
       group: 'root',
-      remotes: {} }
+      remotes: {}, }
   end
 
   shared_examples 'gitolite::repo define' do
